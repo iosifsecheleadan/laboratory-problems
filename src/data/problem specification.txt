@@ -1,0 +1,17 @@
+P2. Lab problems
+A teacher manages information about students and lab problems.
+Create an application which allows to: 
+    perform CRUD operations on students and lab problems
+    assign problems to students; assign grades
+    filter entities based on various criteria
+    reports: e.g. find the problem that was assigned most times
+
+Lab 2-4
+design the solution for your problem using a CASE tool (use cases, class diagram, sequence diagram for each use case)
+    use feature driven development
+    layered architecture
+    data validation
+    all functions will be documented and tested
+
+    use Java 8 features (lambda expressions, streams etc); the program should be written without if statements and loops
+    persistence: ‘in memory’, text files, xml, db (jdbc); you may use any RDBMS, but we only offer support for PostgreSQL; MS SQL Server is forbidden
