@@ -1,4 +1,4 @@
-package ro.ubb.catalog.domain;
+package catalog.domain;
 
 /**
  * @author radu.

@@ -1,8 +1,8 @@
-package ro.ubb.catalog.service;
+package catalog.service;
 
-import ro.ubb.catalog.domain.Student;
-import ro.ubb.catalog.domain.validators.ValidatorException;
-import ro.ubb.catalog.repository.Repository;
+import catalog.domain.validators.ValidatorException;
+import catalog.repository.Repository;
+import catalog.domain.Student;
 
 import java.util.HashSet;
 import java.util.Set;

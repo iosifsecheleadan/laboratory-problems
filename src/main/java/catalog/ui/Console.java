@@ -1,8 +1,8 @@
-package ro.ubb.catalog.ui;
+package catalog.ui;
 
-import ro.ubb.catalog.domain.Student;
-import ro.ubb.catalog.domain.validators.ValidatorException;
-import ro.ubb.catalog.service.StudentService;
+import catalog.domain.Student;
+import catalog.domain.validators.ValidatorException;
+import catalog.service.StudentService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +14,10 @@ import java.util.Set;
  */
 public class Console {
     private StudentService studentService;
+
+    // todo : runConsole // forever (while True choose option)
+    // todo : add, read, filter, print LabProblem like student
+    // todo : add, read, filter, print StudentProblem like student
 
     public Console(StudentService studentService) {
         this.studentService = studentService;

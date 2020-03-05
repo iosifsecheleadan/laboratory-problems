@@ -2,7 +2,7 @@ package catalog.repository;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import ro.ubb.catalog.domain.validators.ValidatorException;
+import catalog.domain.validators.ValidatorException;
 
 import static org.junit.Assert.fail;
 
@@ -10,6 +10,8 @@ import static org.junit.Assert.fail;
  * @author radu.
  */
 public class InMemoryRepositoryTest {
+
+    // todo : write test functions
 
     @Ignore
     @Test

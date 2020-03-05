@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import ro.ubb.catalog.domain.Student;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -21,6 +20,8 @@ public class StudentTest {
     private static final int GROUP = 123;
 
     private Student student;
+
+    // todo : write tests
 
     @Before
     public void setUp() throws Exception {

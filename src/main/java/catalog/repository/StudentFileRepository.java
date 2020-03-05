@@ -1,8 +1,8 @@
-package ro.ubb.catalog.repository;
+package catalog.repository;
 
-import ro.ubb.catalog.domain.Student;
-import ro.ubb.catalog.domain.validators.Validator;
-import ro.ubb.catalog.domain.validators.ValidatorException;
+import catalog.domain.validators.Validator;
+import catalog.domain.validators.ValidatorException;
+import catalog.domain.Student;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

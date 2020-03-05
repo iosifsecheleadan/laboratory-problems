@@ -1,6 +1,6 @@
-package ro.ubb.catalog.domain.validators;
+package catalog.domain.validators;
 
-import ro.ubb.catalog.domain.Student;
+import catalog.domain.Student;
 
 /**
  * @author radu.

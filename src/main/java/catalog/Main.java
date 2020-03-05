@@ -1,12 +1,12 @@
-package ro.ubb.catalog;
+package catalog;
 
-import ro.ubb.catalog.domain.Student;
-import ro.ubb.catalog.domain.validators.StudentValidator;
-import ro.ubb.catalog.domain.validators.Validator;
-import ro.ubb.catalog.repository.Repository;
-import ro.ubb.catalog.repository.StudentFileRepository;
-import ro.ubb.catalog.service.StudentService;
-import ro.ubb.catalog.ui.Console;
+import catalog.domain.Student;
+import catalog.domain.validators.StudentValidator;
+import catalog.domain.validators.Validator;
+import catalog.repository.Repository;
+import catalog.repository.StudentFileRepository;
+import catalog.service.StudentService;
+import catalog.ui.Console;
 
 
 /**
@@ -33,6 +33,7 @@ import ro.ubb.catalog.ui.Console;
  * <li>F3: print students whose name contain a given string</li>
  * </ul>
  */
+
 
 public class Main {
     public static void main(String args[]) {
