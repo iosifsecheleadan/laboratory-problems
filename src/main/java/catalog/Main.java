@@ -1,10 +1,18 @@
 package catalog;
 
+import catalog.domain.LabProblem;
 import catalog.domain.Student;
+import catalog.domain.StudentProblem;
+import catalog.domain.validators.LabProblemValidator;
+import catalog.domain.validators.StudentProblemValidator;
 import catalog.domain.validators.StudentValidator;
 import catalog.domain.validators.Validator;
+import catalog.repository.LabProblemFileRepository;
 import catalog.repository.Repository;
 import catalog.repository.StudentFileRepository;
+import catalog.repository.StudentProblemFileRepostory;
+import catalog.service.LabProblemService;
+import catalog.service.StudentProblemService;
 import catalog.service.StudentService;
 import catalog.ui.Console;
 
@@ -52,13 +60,22 @@ public class Main {
 //        }
 //        //in file repo
         Validator<Student> studentValidator = new StudentValidator();
-        Repository<Long, Student> studentRepository = new StudentFileRepository(studentValidator, "./data/students");
+        Repository<Long, Student> studentRepository = new StudentFileRepository(studentValidator, "./data/students.txt");
         StudentService studentService = new StudentService(studentRepository);
-        Console console = new Console(studentService);
+
+        Validator<LabProblem> labProblemValidator = new LabProblemValidator();
+        Repository<Long, LabProblem> labProblemRepository = new LabProblemFileRepository(labProblemValidator, "./data/labProblems.txt");
+        LabProblemService labProblemService = new LabProblemService(labProblemRepository);
+
+        Validator<StudentProblem> studentProblemValidator = new StudentProblemValidator();
+        Repository<Long, StudentProblem> studentProblemRepository = new StudentProblemFileRepostory(studentProblemValidator, "./data/studentProblems.txt");
+        StudentProblemService studentProblemService = new StudentProblemService(studentProblemRepository, studentRepository, labProblemRepository);
+
+        Console console = new Console(studentService, labProblemService, studentProblemService);
         console.runConsole();
 
 
 
-        System.out.println("Hello World!");
+        System.out.println("Goodbye World!");
     }
 }

@@ -29,22 +29,37 @@ public class StudentService {
     }
 
     /**
-     * Returns all students whose name contain the given string.
-     * 
-     * @param s
-     * @return
+     * Returns all students whose name contains the given string.
+     * @param string String
+     * @return Set<Student>
      */
-    public Set<Student> filterStudentsByName(String s) {
+    public Set<Student> filterByName(String string) {
         Iterable<Student> students = repository.findAll();
         //version 1
 //        Set<Student> filteredStudents = StreamSupport.stream(students.spliterator(), false)
 //                .filter(student -> student.getName().contains(s)).collect(Collectors.toSet());
 
         //version 2
-        Set<Student> filteredStudents= new HashSet<>();
-        students.forEach(filteredStudents::add);
-        filteredStudents.removeIf(student -> !student.getName().contains(s));
+        Set<Student> filtered= new HashSet<>();
+        students.forEach(filtered::add);
+        filtered.removeIf(student -> !student.getName().contains(string));
 
-        return filteredStudents;
+        return filtered;
+    }
+
+
+    /**
+     * Returns all Students who are in the given group.
+     * @param group int
+     * @return Set<Student>
+     */
+    public Set<Student> filterByGroup(int group) {
+        Iterable<Student> students = repository.findAll();
+        Set<Student> filtered = new HashSet<>();
+
+        students.forEach(filtered::add);
+        filtered.removeIf(student -> student.getGroup() != group);
+
+        return filtered;
     }
 }
