@@ -21,7 +21,7 @@ public class StudentService {
     }
 
     public void addStudent(Student student) throws ValidatorException {
-        repository.save(student);
+        this.repository.save(student);
     }
 
     public Set<Student> getAllStudents() {

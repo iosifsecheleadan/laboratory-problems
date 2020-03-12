@@ -13,7 +13,6 @@ import catalog.service.StudentProblemService;
 import catalog.service.StudentService;
 import catalog.ui.Console;
 
-
 /**
  * Created by radu.
  * <p>
@@ -38,7 +37,6 @@ import catalog.ui.Console;
  * <li>F3: print students whose name contain a given string</li>
  * </ul>
  */
-
 
 public class Main {
     public static void main(String args[]) {

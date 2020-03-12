@@ -93,7 +93,7 @@ public class GenericFileRepository<Type extends BaseEntity<Long>> extends InMemo
         Path path = Paths.get(this.fileName);
 
         try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path, StandardOpenOption.APPEND)){
-            bufferedWriter.write("\n" + entity.toString(","));
+            bufferedWriter.write(entity.toString(","));
             bufferedWriter.newLine();
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,8 +1,6 @@
 package catalog.domain;
 
-import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public class LabProblem extends BaseEntity<Long> {
@@ -39,6 +37,17 @@ public class LabProblem extends BaseEntity<Long> {
 
     // todo : like student
 
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+
+        LabProblem problem = (LabProblem) other;
+
+        if (this.problemNumber != problem.problemNumber) return false;
+        if (!this.description.equals(problem.description)) return false;
+        return this.name.equals(problem.name);
+    }
 
     @Override
     public String toString(String separator) {

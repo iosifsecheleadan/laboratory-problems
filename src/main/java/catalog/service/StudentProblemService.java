@@ -52,7 +52,6 @@ public class StudentProblemService {
                                         this.repository.findOne(student.getId()).get().getProblemID()   //              .getProblemID
                                             .equals(labProblem.getId()))                                //              == labProblem.getID
                 .collect(Collectors.toSet());                                                           //          toReturn.add(student)
-
         /*
         // Equivalent iterative
         Set<Student> studentsWithProblem = new HashSet<>();
@@ -97,8 +96,8 @@ public class StudentProblemService {
         return StreamSupport.stream(problems.spliterator(), false)
                 .filter(problem -> this.repository.findOne(problem.getId()).isPresent() &&
                         this.studentRepository.findOne(
-                                this.repository.findOne(problem.getId()).get().getStudentID()
-                                ).isPresent() &&
+                                this.repository.findOne(problem.getId()).get().getStudentID())
+                                .isPresent() &&
                         this.studentRepository.findOne(
                                 this.repository.findOne(problem.getId()).get().getStudentID()
                         ).get().getSerialNumber().equals(serialNumber))

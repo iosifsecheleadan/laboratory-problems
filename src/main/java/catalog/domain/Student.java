@@ -55,11 +55,11 @@ public class Student extends BaseEntity<Long>{
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
 
-        Student student = (Student) o;
+        Student student = (Student) other;
 
         if (group != student.group) return false;
         if (!serialNumber.equals(student.serialNumber)) return false;

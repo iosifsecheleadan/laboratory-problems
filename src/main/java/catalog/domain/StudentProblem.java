@@ -33,6 +33,16 @@ public class StudentProblem extends BaseEntity<Long> {
 
     // todo : like student
 
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+
+        StudentProblem assignment = (StudentProblem) other;
+
+        if (!this.problemID.equals(assignment.problemID)) return false;
+        return this.studentID.equals(assignment.studentID);
+    }
 
     @Override
     public String toString(String separator) {
