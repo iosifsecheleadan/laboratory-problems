@@ -1,5 +1,8 @@
 package catalog.domain;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author radu.
  *
@@ -12,10 +15,19 @@ public class Student extends BaseEntity<Long>{
     public Student() {
     }
 
-    public Student(String serialNumber, String name, int group) {
+    public Student(Long ID, String serialNumber, String name, int group) {
+        this.setId(ID);
         this.serialNumber = serialNumber;
         this.name = name;
         this.group = group;
+    }
+
+    public Student(String string) {
+        List<String> values = Arrays.asList(string.split(","));
+        this.setId(Long.parseLong(values.get(0)));
+        this.serialNumber = values.get(1);
+        this.name = values.get(2);
+        this.group = Integer.parseInt(values.get(3));
     }
 
     public String getSerialNumber() {
@@ -52,7 +64,6 @@ public class Student extends BaseEntity<Long>{
         if (group != student.group) return false;
         if (!serialNumber.equals(student.serialNumber)) return false;
         return name.equals(student.name);
-
     }
 
     @Override
@@ -70,5 +81,14 @@ public class Student extends BaseEntity<Long>{
                 ", name='" + name + '\'' +
                 ", group=" + group +
                 "} " + super.toString();
+    }
+
+    @Override
+    public String toString(String separator) {
+        return this.getId().toString() + separator
+                + this.serialNumber.toString() + separator
+                + this.name.toString() + separator
+                + String.valueOf(this.group);
+
     }
 }

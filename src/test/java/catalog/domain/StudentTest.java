@@ -25,8 +25,8 @@ public class StudentTest {
 
     @Before
     public void setUp() throws Exception {
-        student = new Student(SERIAL_NUMBER, NAME, GROUP);
-        student.setId(ID);
+        student = new Student(NEW_ID, SERIAL_NUMBER, NAME, GROUP);
+        //student.setId(ID);
     }
 
     @After

@@ -6,6 +6,8 @@ package catalog.domain;
 public class BaseEntity<ID> {
     private ID id;
 
+    public BaseEntity() {}
+
     public ID getId() {
         return id;
     }
@@ -19,5 +21,9 @@ public class BaseEntity<ID> {
         return "BaseEntity{" +
                 "id=" + id +
                 '}';
+    }
+
+    public String toString(String separator) {
+        return id.toString();
     }
 }

@@ -5,6 +5,7 @@ import catalog.repository.Repository;
 import catalog.domain.Student;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -61,5 +62,16 @@ public class StudentService {
         filtered.removeIf(student -> student.getGroup() != group);
 
         return filtered;
+    }
+
+    public void removeStudent(Student student) {
+        this.repository.delete(student.getId());
+    }
+
+    public Optional<Student> getBySerialNumber(String serialNumber) {
+        Iterable<Student> students = this.repository.findAll();
+        return StreamSupport.stream(students.spliterator(), false)
+                .filter(student -> student.getSerialNumber().equals(serialNumber))
+                .findAny();
     }
 }

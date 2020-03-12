@@ -39,8 +39,8 @@ public class StudentFileRepository extends InMemoryRepository<Long, Student> {
                 String name = items.get((2));
                 int group = Integer.parseInt(items.get(3));
 
-                Student student = new Student(serialNumber, name, group);
-                student.setId(id);
+                Student student = new Student(id, serialNumber, name, group);
+                //student.setId(id);
 
                 try {
                     super.save(student);

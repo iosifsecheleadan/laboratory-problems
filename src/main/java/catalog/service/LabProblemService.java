@@ -5,6 +5,7 @@ import catalog.domain.validators.ValidatorException;
 import catalog.repository.Repository;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -54,5 +55,16 @@ public class LabProblemService {
         filtered.removeIf(labProblem -> !labProblem.getDescription().contains(string));
 
         return filtered;
+    }
+
+    public void removeLabProblem(LabProblem labProblem) {
+        this.repository.delete(labProblem.getId());
+    }
+
+    public Optional<LabProblem> getByProblemNumber(Integer problemNumber) {
+        Iterable<LabProblem> problems = this.repository.findAll();
+        return StreamSupport.stream(problems.spliterator(), false)
+                .filter(problem -> problem.getProblemNumber() == problemNumber)
+                .findAny();
     }
 }
