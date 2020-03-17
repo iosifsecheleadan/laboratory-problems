@@ -84,7 +84,6 @@ public class Console {
     }
 
     private void reportProblems(List<String> userOptions) {
-        // todo
         try {
             if (userOptions.size() <= 2) throw new AssertionError();
             switch (userOptions.get(2)) {
