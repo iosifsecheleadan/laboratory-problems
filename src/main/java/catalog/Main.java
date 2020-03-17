@@ -13,6 +13,8 @@ import catalog.service.StudentProblemService;
 import catalog.service.StudentService;
 import catalog.ui.Console;
 
+import java.util.ArrayList;
+
 /**
  * Created by radu.
  * <p>
@@ -40,7 +42,6 @@ import catalog.ui.Console;
 
 public class Main {
     public static void main(String args[]) {
-
         Validator<Student> studentValidator = new StudentValidator();
         //Repository<Long, Student> studentRepository = new StudentFileRepository(studentValidator, "./data/students.txt");
         Repository<Long, Student> studentRepository = new GenericFileRepository<Student>(studentValidator, "./data/students.txt","catalog.domain.Student");
@@ -59,6 +60,6 @@ public class Main {
         Console console = new Console(studentService, labProblemService, studentProblemService);
         console.runConsole();
 
-        System.out.println("Goodbye World!");
+        System.out.println("Class dismissed!");
     }
 }

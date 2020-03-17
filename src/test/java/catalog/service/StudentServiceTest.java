@@ -10,7 +10,6 @@ import static org.junit.Assert.*;
 
 
 public class StudentServiceTest {
-    // todo : write tests
     private Repository<Long, Student> repo;
     private StudentService serv;
     private final Student zero = new Student(0L,"00zr","Zero the Hero", 0);
@@ -58,7 +57,7 @@ public class StudentServiceTest {
         assertEquals(0, this.serv.getAllStudents().size());
     }
 
-    // Only for ? extends InMemoryRepository
+    // Only for <? extends InMemoryRepository>
     @Test(expected = IllegalArgumentException.class)
     public void testDeleteStudent() {
         this.serv.removeStudent(new Student(null, null, null, 0));

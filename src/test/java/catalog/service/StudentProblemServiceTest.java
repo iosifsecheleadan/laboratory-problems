@@ -137,7 +137,7 @@ public class StudentProblemServiceTest {
 
     // todo : correct these
 
-    // filterByProblem doesn't work correctly
+    // filterByProblem doesn't work properly
     @Ignore
     @Test
     public void testFilterProblem() throws Exception {
@@ -152,7 +152,7 @@ public class StudentProblemServiceTest {
                 this.serv.filterByProblem(this.LPone.getProblemNumber()));
     }
 
-    // filterByStudent doesn't work correctly
+    // filterByStudent doesn't work properly
     @Ignore
     @Test
     public void testFilterStudent() throws Exception {

@@ -123,6 +123,10 @@ public class StudentProblemService {
         this.repository.delete(assignment.getId());
     }
 
+    /**
+     * Removes all Assignments of given Student.
+     * @param student Student
+     */
     public void removeStudent(Student student) {
         Iterable<StudentProblem> assignments = this.repository.findAll();
         StreamSupport.stream(assignments.spliterator(), false)
@@ -131,6 +135,10 @@ public class StudentProblemService {
                 .forEach(assgnment -> this.repository.delete(assgnment.getId()));
     }
 
+    /**
+     * Removes all Assignments of given LabProblem.
+     * @param problem LabProblem
+     */
     public void removeProblem(LabProblem problem) {
         Iterable<StudentProblem> assignments = this.repository.findAll();
         StreamSupport.stream(assignments.spliterator(), false)

@@ -65,6 +65,7 @@ public class StudentService {
     }
 
     public void removeStudent(Student student) {
+
         this.repository.delete(student.getId());
     }
 
