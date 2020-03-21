@@ -4,6 +4,7 @@ import catalog.domain.validators.Validator;
 import catalog.domain.validators.ValidatorException;
 import catalog.domain.BaseEntity;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -13,17 +14,18 @@ import java.util.stream.Collectors;
 /**
  * @author radu.
  */
-public class InMemoryRepository<ID, T extends BaseEntity<ID>> implements Repository<ID, T> {
-    private Map<ID, T> entities;
-    private Validator<T> validator;
+public class InMemoryRepository<ID extends Serializable, Type extends BaseEntity<ID>>
+        implements Repository<ID, Type> {
+    private Map<ID, Type> entities;
+    private Validator<Type> validator;
 
-    public InMemoryRepository(Validator<T> validator) {
+    public InMemoryRepository(Validator<Type> validator) {
         this.validator = validator;
         this.entities = new HashMap<>();
     }
 
     @Override
-    public Optional<T> findOne(ID id) {
+    public Optional<Type> findOne(ID id) {
         if (id == null) {
             throw new IllegalArgumentException("id must not be null");
         }
@@ -31,13 +33,14 @@ public class InMemoryRepository<ID, T extends BaseEntity<ID>> implements Reposit
     }
 
     @Override
-    public Iterable<T> findAll() {
-        Set<T> allEntities = entities.entrySet().stream().map(entry -> entry.getValue()).collect(Collectors.toSet());
+    public Iterable<Type> findAll() {
+        Set<Type> allEntities = entities.entrySet().stream().map(entry ->
+                entry.getValue()).collect(Collectors.toSet());
         return allEntities;
     }
 
     @Override
-    public Optional<T> save(T entity) throws ValidatorException {
+    public Optional<Type> save(Type entity) throws ValidatorException {
         if (entity == null) {
             throw new IllegalArgumentException("id must not be null");
         }
@@ -46,7 +49,7 @@ public class InMemoryRepository<ID, T extends BaseEntity<ID>> implements Reposit
     }
 
     @Override
-    public Optional<T> delete(ID id) {
+    public Optional<Type> delete(ID id) {
         if (id == null) {
             throw new IllegalArgumentException("id must not be null");
         }
@@ -54,7 +57,7 @@ public class InMemoryRepository<ID, T extends BaseEntity<ID>> implements Reposit
     }
 
     @Override
-    public Optional<T> update(T entity) throws ValidatorException {
+    public Optional<Type> update(Type entity) throws ValidatorException {
         if (entity == null) {
             throw new IllegalArgumentException("entity must not be null");
         }

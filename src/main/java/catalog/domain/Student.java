@@ -7,7 +7,8 @@ import java.util.List;
  * @author radu.
  *
  */
-public class Student extends BaseEntity<Long>{
+public class Student
+        extends BaseEntity<Long>{
     private String serialNumber;
     private String name;
     private int group;
@@ -90,5 +91,19 @@ public class Student extends BaseEntity<Long>{
                 + this.name.toString() + separator
                 + String.valueOf(this.group);
 
+    }
+
+    @Override
+    public <Type extends BaseEntity<Long>> int compareTo(Type that, String attribute) throws IllegalAccessException {
+        if(this == that) return 0;
+        if (that == null || this.getClass() != that.getClass()) throw new IllegalAccessException("cannot compare different types");
+        Student student = (Student) that;
+
+        switch (attribute) {
+            case "serialNumber": return this.serialNumber.compareTo(student.serialNumber);
+            case "name": return this.name.compareTo(student.name);
+            case "group": return this.group - student.group;
+            default: throw new IllegalAccessException("invalid attribute");
+        }
     }
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
  * @author radu.
  *
  */
-public interface Repository<ID, T extends BaseEntity<ID>> {
+public interface Repository<ID, Type extends BaseEntity<ID>> {
     /**
      * Find the entity with the given {@code id}.
      * 
@@ -21,13 +21,13 @@ public interface Repository<ID, T extends BaseEntity<ID>> {
      * @throws IllegalArgumentException
      *             if the given id is null.
      */
-    Optional<T> findOne(ID id);
+    Optional<Type> findOne(ID id);
 
     /**
      *
      * @return all entities.
      */
-    Iterable<T> findAll();
+    Iterable<Type> findAll();
 
     /**
      * Saves the given entity.
@@ -40,7 +40,7 @@ public interface Repository<ID, T extends BaseEntity<ID>> {
      * @throws ValidatorException
      *             if the entity is not valid.
      */
-    Optional<T> save(T entity) throws ValidatorException;
+    Optional<Type> save(Type entity) throws ValidatorException;
 
     /**
      * Removes the entity with the given id.
@@ -51,7 +51,7 @@ public interface Repository<ID, T extends BaseEntity<ID>> {
      * @throws IllegalArgumentException
      *             if the given id is null.
      */
-    Optional<T> delete(ID id);
+    Optional<Type> delete(ID id);
 
     /**
      * Updates the given entity.
@@ -65,5 +65,5 @@ public interface Repository<ID, T extends BaseEntity<ID>> {
      * @throws ValidatorException
      *             if the entity is not valid.
      */
-    Optional<T> update(T entity) throws ValidatorException;
+    Optional<Type> update(Type entity) throws ValidatorException;
 }

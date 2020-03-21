@@ -3,7 +3,8 @@ package catalog.domain;
 import java.util.Arrays;
 import java.util.List;
 
-public class LabProblem extends BaseEntity<Long> {
+public class LabProblem
+        extends BaseEntity<Long> {
     private int problemNumber;
     private String name;
     private String description;
@@ -55,5 +56,19 @@ public class LabProblem extends BaseEntity<Long> {
                 + String.valueOf(this.problemNumber) + separator
                 + this.name.toString() + separator
                 + this.description.toString();
+    }
+
+    @Override
+    public <Type extends BaseEntity<Long>> int compareTo(Type that, String attribute) throws IllegalAccessException {
+        if(this == that) return 0;
+        if (that == null || this.getClass() != that.getClass()) throw new IllegalAccessException("cannot compare different types");
+        LabProblem labProblem = (LabProblem) that;
+
+        switch (attribute) {
+            case "description": return this.description.compareTo(labProblem.description);
+            case "name": return this.name.compareTo(labProblem.name);
+            case "problemNumber": return this.problemNumber - labProblem.problemNumber;
+            default: throw new IllegalAccessException("invalid attribute");
+        }
     }
 }

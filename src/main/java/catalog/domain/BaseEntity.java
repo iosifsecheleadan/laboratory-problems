@@ -1,5 +1,7 @@
 package catalog.domain;
 
+import java.io.Serializable;
+
 /**
  * @author radu.
  */
@@ -25,5 +27,10 @@ public class BaseEntity<ID> {
 
     public String toString(String separator) {
         return id.toString();
+    }
+
+
+    public <Type extends BaseEntity<ID>> int compareTo(Type that, String attribute) throws IllegalAccessException {
+        return 0;
     }
 }

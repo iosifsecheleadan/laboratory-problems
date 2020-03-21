@@ -13,21 +13,14 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 
-public class GenericFileRepository<Type extends BaseEntity<Long>> extends InMemoryRepository <Long, Type> {
+public class GenericFileRepository<Type extends BaseEntity<Long>>
+        extends InMemoryRepository<Long, Type> {
     private final String fileName;
-    private Type type;
     private final String className;
 
     public GenericFileRepository(Validator<Type> validator, String fileName, String className) {
         super(validator);
         this.fileName = fileName;
-        Validator<Optional<Path>> valid = new Validator<Optional<Path>>() {
-            @Override
-            public void validate(Optional<Path> entity) throws ValidatorException {
-                return;
-            }
-        };
-
         this.className = className;
 
         this.loadData();
@@ -77,6 +70,17 @@ public class GenericFileRepository<Type extends BaseEntity<Long>> extends InMemo
         return Optional.empty();
     }
 
+    private void saveToFile(Type entity) {
+        Path path = Paths.get(this.fileName);
+
+        try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path, StandardOpenOption.APPEND)){
+            bufferedWriter.write(entity.toString(","));
+            bufferedWriter.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public Optional<Type> delete(Long ID) {
         // todo : HERE delete first line starting with ID from file
@@ -89,14 +93,4 @@ public class GenericFileRepository<Type extends BaseEntity<Long>> extends InMemo
         return super.update(entity);
     }
 
-    private void saveToFile(Type entity) {
-        Path path = Paths.get(this.fileName);
-
-        try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path, StandardOpenOption.APPEND)){
-            bufferedWriter.write(entity.toString(","));
-            bufferedWriter.newLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

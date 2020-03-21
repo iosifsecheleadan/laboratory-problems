@@ -4,7 +4,6 @@ import catalog.domain.LabProblem;
 import catalog.domain.Student;
 import catalog.domain.StudentProblem;
 import catalog.domain.validators.LaboratoryExeption;
-import catalog.domain.validators.Validator;
 import catalog.domain.validators.ValidatorException;
 import catalog.repository.RepositoryException;
 import catalog.service.LabProblemService;
@@ -19,6 +18,8 @@ import java.util.*;
 /**
  * @author radu.
  */
+
+
 public class Console {
     private StudentService studentService;
     private LabProblemService labProblemService;
