@@ -43,8 +43,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String args[]) {
         Validator<Student> studentValidator = new StudentValidator();
-        //Repository<Long, Student> studentRepository = new StudentFileRepository(studentValidator, "./data/students.txt");
-        Repository<Long, Student> studentRepository = new GenericFileRepository<Student>(studentValidator, "./data/students.txt","catalog.domain.Student");
+        Repository<Long, Student> studentRepository = new StudentFileRepository(studentValidator, "./data/students.txt");
         StudentService studentService = new StudentService(studentRepository);
 
         Validator<LabProblem> labProblemValidator = new LabProblemValidator();

@@ -1,4 +1,5 @@
-0,00zr,Zero the Hero,0
-1,11st,The First,1
-2,22nd,The Second,10,00zr,Zero the Hero,0
+1,gh6473,The First,1
+2,22nd,The Second,1
 12,gh3,boss,333
+3,mcie2345,Miron Costin,1
+4,bcie2345,Bogdan Costache,1

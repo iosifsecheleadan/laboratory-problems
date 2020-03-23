@@ -1,5 +1,8 @@
 package catalog.domain;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -90,5 +93,38 @@ public class Student extends BaseEntity<Long>{
                 + this.name.toString() + separator
                 + String.valueOf(this.group);
 
+    }
+
+    @Override
+    public String toXML() {
+        return "<Student>" +
+                "<ID>" + Long.toString(this.getId()) + "</ID>\n" +
+                "<serialNumber>" + this.getSerialNumber() + "</serialNumber>\n" +
+                "<name>" + this.getName() + "</name>\n" +
+                "<group>" + Integer.toString(getGroup()) + "</group>\n" +
+                "</Student>\n";
+    }
+
+    @Override
+    public Element toXML(Document document) {
+        Element newStudent = (Element) document.createElement("Student");
+
+        Element newID = (Element) document.createElement("ID");
+        newID.appendChild(document.createTextNode(Long.toString(this.getId())));
+        newStudent.appendChild(newID);
+
+        Element newSerial = (Element) document.createElement("serialNumber");
+        newSerial.appendChild(document.createTextNode(this.getSerialNumber()));
+        newStudent.appendChild(newSerial);
+
+        Element newName = (Element) document.createElement("name");
+        newName.appendChild(document.createTextNode(this.getName()));
+        newStudent.appendChild(newName);
+
+        Element newGroup = (Element) document.createElement("group");
+        newGroup.appendChild(document.createTextNode(Integer.toString(this.getGroup())));
+        newStudent.appendChild(newGroup);
+
+        return newStudent;
     }
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><catalog.domain.Student>
+    <student>
+        <ID>1</ID>
+        <serialNumber>siie1234</serialNumber>
+        <name>Sechelea Iosif</name>
+        <group>927</group>
+    </student>
+
+    <student>
+        <ID>2</ID>
+        <serialNumber>vrie2345</serialNumber>
+        <name>Vinczi Richard</name>
+        <group>927</group>
+    </student>
+
+    <student>
+        <ID>3</ID>
+        <serialNumber>uvie3456</serialNumber>
+        <name>Ungureanu Vlad</name>
+        <group>927</group>
+    </student>
+<student><ID>4</ID><serialNumber>bcie2345</serialNumber><name>Bogdan Costache</name><group>1</group></student></catalog.domain.Student>

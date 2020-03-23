@@ -4,13 +4,14 @@ import catalog.domain.BaseEntity;
 import catalog.domain.validators.Validator;
 import catalog.domain.validators.ValidatorException;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class GenericFileRepository<Type extends BaseEntity<Long>> extends InMemoryRepository <Long, Type> {
@@ -79,13 +80,63 @@ public class GenericFileRepository<Type extends BaseEntity<Long>> extends InMemo
 
     @Override
     public Optional<Type> delete(Long ID) {
-        // todo : HERE delete first line starting with ID from file
+        try {
+            File inputFile = new File(fileName);
+            File tempFile = new File("tempFile");
+
+            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+            String currentLine;
+
+            while ((currentLine = reader.readLine()) != null) {
+                // trim newline when comparing with lineToRemove
+                currentLine = currentLine.trim();
+                List<String> values = Arrays.asList(currentLine.split(","));
+                String id = values.get(0);
+                if (id.equals(Long.toString(ID))) continue;
+                writer.write(currentLine + System.getProperty("line.separator"));
+            }
+            writer.close();
+            reader.close();
+            boolean successful = tempFile.renameTo(inputFile);
+        } catch(Exception e){
+            System.out.println(e);
+        }
+
         return super.delete(ID);
     }
 
     @Override
     public Optional<Type> update(Type entity) throws ValidatorException {
-        // todo : HERE replace first line starting with ID from file with entity.toString(",")
+        try {
+            File inputFile = new File(fileName);
+            File tempFile = new File("tempFile");
+
+            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+            String currentLine;
+            Long ID = entity.getId();
+
+            while ((currentLine = reader.readLine()) != null) {
+                // trim newline when comparing with lineToRemove
+                currentLine = currentLine.trim();
+                List<String> values = Arrays.asList(currentLine.split(","));
+                String id = values.get(0);
+                if (id.equals(Long.toString(ID))) {
+                    writer.write(entity.toString(",") + System.getProperty("line.separator"));
+                    continue;
+                }
+                writer.write(currentLine + System.getProperty("line.separator"));
+            }
+            writer.close();
+            reader.close();
+            boolean successful = tempFile.renameTo(inputFile);
+        } catch(Exception e){
+            System.out.println(e);
+        }
+
         return super.update(entity);
     }
 
