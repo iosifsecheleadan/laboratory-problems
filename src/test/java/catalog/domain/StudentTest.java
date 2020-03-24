@@ -17,7 +17,9 @@ public class StudentTest {
     private static final String SERIAL_NUMBER = "sn01";
     private static final String NEW_SERIAL_NUMBER = "sn02";
     private static final String NAME = "studentName";
+    private static final String NEW_NAME = "studentName2";
     private static final int GROUP = 123;
+    private static final int NEW_GROUP = 124;
 
     private Student student;
 
@@ -25,7 +27,7 @@ public class StudentTest {
 
     @Before
     public void setUp() throws Exception {
-        student = new Student(NEW_ID, SERIAL_NUMBER, NAME, GROUP);
+        student = new Student(ID, SERIAL_NUMBER, NAME, GROUP);
         //student.setId(ID);
     }
 
@@ -56,27 +58,25 @@ public class StudentTest {
         assertEquals("Ids should be equal", NEW_ID, student.getId());
     }
 
-    @Ignore
     @Test
     public void testGetName() throws Exception {
-        fail("Not tested yet.");
+        assertEquals("Names should be the same!", NAME, student.getName());
     }
 
-    @Ignore
     @Test
     public void testSetName() throws Exception {
-        fail("Not tested yet.");
+        student.setName(NEW_NAME);
+        assertEquals("Names should be the same!", NEW_NAME, student.getName());
     }
 
-    @Ignore
     @Test
     public void testGetGroup() throws Exception {
-        fail("Not tested yet.");
+        assertEquals("Groups should be identical!", GROUP, student.getGroup());
     }
 
-    @Ignore
     @Test
     public void testSetGroup() throws Exception {
-        fail("Not tested yet.");
+        student.setGroup(NEW_GROUP);
+        assertEquals("Groups should be identical!", NEW_GROUP, student.getGroup());
     }
 }

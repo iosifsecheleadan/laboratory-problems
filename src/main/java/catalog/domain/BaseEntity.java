@@ -1,6 +1,7 @@
 package catalog.domain;
 
-import java.io.Serializable;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * @author radu.
@@ -29,8 +30,10 @@ public class BaseEntity<ID> {
         return id.toString();
     }
 
+    public String toXML() { return "<BaseEntity></BaseEntity>"; }
 
-    public <Type extends BaseEntity<ID>> int compareTo(Type that, String attribute) throws IllegalAccessException {
-        return 0;
+    public Element toXML(Document document) {
+        Element element = document.createElement("BaseEntity");
+        return element;
     }
 }

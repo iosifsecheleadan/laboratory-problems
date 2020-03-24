@@ -39,8 +39,9 @@ public class SortingRepository<ID extends Serializable, Type extends BaseEntity<
         sort.getAttributesReversed().forEach(attribute -> {
             allEntries.sort((first, second) -> {
                 try {
-                    return first.compareTo(second, attribute);
-                } catch (IllegalAccessException e) {
+                    return ((Comparable) first.getClass().getField(attribute).get(first)).compareTo(
+                            second.getClass().getField(attribute).get(second));
+                } catch (IllegalAccessException | NoSuchFieldException e) {
                     e.printStackTrace();
                 } return 0;
             });
@@ -73,5 +74,4 @@ public class SortingRepository<ID extends Serializable, Type extends BaseEntity<
         validator.validate(entity);
         return Optional.ofNullable(this.entities.computeIfPresent(entity.getId(), (k, v) -> entity));
     }
-
 }

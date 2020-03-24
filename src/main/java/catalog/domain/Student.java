@@ -1,5 +1,8 @@
 package catalog.domain;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -94,16 +97,35 @@ public class Student
     }
 
     @Override
-    public <Type extends BaseEntity<Long>> int compareTo(Type that, String attribute) throws IllegalAccessException {
-        if(this == that) return 0;
-        if (that == null || this.getClass() != that.getClass()) throw new IllegalAccessException("cannot compare different types");
-        Student student = (Student) that;
+    public String toXML() {
+        return "<Student>" +
+                "<ID>" + Long.toString(this.getId()) + "</ID>\n" +
+                "<serialNumber>" + this.getSerialNumber() + "</serialNumber>\n" +
+                "<name>" + this.getName() + "</name>\n" +
+                "<group>" + Integer.toString(getGroup()) + "</group>\n" +
+                "</Student>\n";
+    }
 
-        switch (attribute) {
-            case "serialNumber": return this.serialNumber.compareTo(student.serialNumber);
-            case "name": return this.name.compareTo(student.name);
-            case "group": return this.group - student.group;
-            default: throw new IllegalAccessException("invalid attribute");
-        }
+    @Override
+    public Element toXML(Document document) {
+        Element newStudent = (Element) document.createElement("Student");
+
+        Element newID = (Element) document.createElement("ID");
+        newID.appendChild(document.createTextNode(Long.toString(this.getId())));
+        newStudent.appendChild(newID);
+
+        Element newSerial = (Element) document.createElement("serialNumber");
+        newSerial.appendChild(document.createTextNode(this.getSerialNumber()));
+        newStudent.appendChild(newSerial);
+
+        Element newName = (Element) document.createElement("name");
+        newName.appendChild(document.createTextNode(this.getName()));
+        newStudent.appendChild(newName);
+
+        Element newGroup = (Element) document.createElement("group");
+        newGroup.appendChild(document.createTextNode(Integer.toString(this.getGroup())));
+        newStudent.appendChild(newGroup);
+
+        return newStudent;
     }
 }
