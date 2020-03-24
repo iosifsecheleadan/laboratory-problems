@@ -12,7 +12,6 @@ public class GenericDataBaseRepository<Type extends BaseEntity<Long>>
     private final String dataBaseName;
     private final String tableName;
 
-
     public GenericDataBaseRepository(Validator<Type> validator, String dataBaseName, String tableName, String className) {
         super(validator);
         this.className = className;

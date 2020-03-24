@@ -21,7 +21,8 @@ public class StudentValidator implements Validator<Student> {
             throw new ValidatorException("Student Name Not Set!");
         }
 
-        if(entity.getGroup() < 0)
+        if(entity.getGroup() < 0) {
             throw new ValidatorException("Group Not Set!");
+        }
     }
 }
