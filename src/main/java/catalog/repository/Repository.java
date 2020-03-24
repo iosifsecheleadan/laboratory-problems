@@ -11,7 +11,7 @@ import java.util.Optional;
  * @author radu.
  *
  */
-public interface Repository<ID, Type extends BaseEntity<ID>> {
+public interface Repository<ID extends Comparable<ID>, Type extends BaseEntity<ID>> {
     /**
      * Find the entity with the given {@code id}.
      * 

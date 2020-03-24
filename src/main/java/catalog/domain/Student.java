@@ -7,8 +7,8 @@ import java.util.List;
  * @author radu.
  *
  */
-public class Student
-        extends BaseEntity<Long>{
+public class Student<ID extends Comparable<ID>>
+        extends BaseEntity<ID>{
     private String serialNumber;
     private String name;
     private int group;
@@ -16,8 +16,8 @@ public class Student
     public Student() {
     }
 
-    public Student(Long ID, String serialNumber, String name, int group) {
-        this.setId(ID);
+    public Student(ID id, String serialNumber, String name, int group) {
+        this.setId(id);
         this.serialNumber = serialNumber;
         this.name = name;
         this.group = group;
@@ -25,7 +25,7 @@ public class Student
 
     public Student(String string) {
         List<String> values = Arrays.asList(string.split(","));
-        this.setId(Long.parseLong(values.get(0)));
+        this.setId((ID) values.get(0));
         this.serialNumber = values.get(1);
         this.name = values.get(2);
         this.group = Integer.parseInt(values.get(3));
@@ -60,7 +60,7 @@ public class Student
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
 
-        Student student = (Student) other;
+        Student<ID> student = (Student<ID>) other;
 
         if (group != student.group) return false;
         if (!serialNumber.equals(student.serialNumber)) return false;
@@ -91,19 +91,5 @@ public class Student
                 + this.name.toString() + separator
                 + String.valueOf(this.group);
 
-    }
-
-    @Override
-    public <Type extends BaseEntity<Long>> int compareTo(Type that, String attribute) throws IllegalAccessException {
-        if(this == that) return 0;
-        if (that == null || this.getClass() != that.getClass()) throw new IllegalAccessException("cannot compare different types");
-        Student student = (Student) that;
-
-        switch (attribute) {
-            case "serialNumber": return this.serialNumber.compareTo(student.serialNumber);
-            case "name": return this.name.compareTo(student.name);
-            case "group": return this.group - student.group;
-            default: throw new IllegalAccessException("invalid attribute");
-        }
     }
 }

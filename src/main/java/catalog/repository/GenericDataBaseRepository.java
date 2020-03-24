@@ -4,10 +4,11 @@ import catalog.domain.BaseEntity;
 import catalog.domain.validators.Validator;
 import catalog.domain.validators.ValidatorException;
 
+import java.io.Serializable;
 import java.util.Optional;
 
-public class GenericDataBaseRepository<Type extends BaseEntity<Long>>
-        extends SortingRepository<Long, Type> {
+public class GenericDataBaseRepository<ID extends Serializable & Comparable<ID>, Type extends BaseEntity<ID>>
+        extends SortingRepository<ID, Type> {
     private final String className;
     private final String dataBaseName;
     private final String tableName;
@@ -53,9 +54,9 @@ public class GenericDataBaseRepository<Type extends BaseEntity<Long>>
     }
 
     @Override
-    public Optional<Type> delete(Long ID) {
+    public Optional<Type> delete(ID id) {
         // todo HERE delete entity with given ID from database
-        return super.delete(ID);
+        return super.delete(id);
     }
 
     @Override
