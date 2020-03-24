@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class SortingRepository<ID extends Serializable & Comparable<ID>, Type extends BaseEntity<ID>>
+public class SortingRepository<ID extends Serializable, Type extends BaseEntity<ID>>
         implements Repository<ID, Type> {
     private Map<ID, Type> entities;
     private Validator<Type> validator;
@@ -36,17 +36,15 @@ public class SortingRepository<ID extends Serializable & Comparable<ID>, Type ex
     public Iterable<Type> findAll(Sort sort) {
         List<Type> allEntries = StreamSupport.stream(this.findAll().spliterator(), false)
                 .collect(Collectors.toList());
-        sort.getAttributesReversed().forEach(attribute ->
-                allEntries.sort((first, second) ->
-                {
-                    try {
-                        return ((Comparable) first.getClass().getField(attribute).get(first)).compareTo(
-                                second.getClass().getField(attribute).get(second));
-                    } catch (IllegalAccessException | NoSuchFieldException e) {
-                        e.printStackTrace();
-                    }
-                    return 0;
-                }));
+        sort.getAttributesReversed().forEach(attribute -> {
+            allEntries.sort((first, second) -> {
+                try {
+                    return first.compareTo(second, attribute);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } return 0;
+            });
+        });
         return allEntries;
     }
 

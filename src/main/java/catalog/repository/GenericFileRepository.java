@@ -6,7 +6,6 @@ import catalog.domain.validators.ValidatorException;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,8 +13,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 
-public class GenericFileRepository<ID extends Serializable & Comparable<ID>, Type extends BaseEntity<ID>>
-        extends InMemoryRepository<ID, Type> {
+public class GenericFileRepository<Type extends BaseEntity<Long>>
+        extends InMemoryRepository<Long, Type> {
     private final String fileName;
     private final String className;
 
@@ -33,8 +32,8 @@ public class GenericFileRepository<ID extends Serializable & Comparable<ID>, Typ
             Files.lines(path).forEach(line -> {
                 Type instance = null;
                 try {
-                    //instance = (Type) Class.forName(this.className).getConstructor(String.class).newInstance(line);
-                    instance = (Type) instance.getClass().getConstructor(String.class).newInstance(line);
+                    //instance = (Type) this.clazz.getConstructor().newInstance(line);
+                    instance = (Type) Class.forName(this.className).getConstructor(String.class).newInstance(line);
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
@@ -46,6 +45,8 @@ public class GenericFileRepository<ID extends Serializable & Comparable<ID>, Typ
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
                 } catch (NullPointerException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
                 try{
@@ -81,9 +82,9 @@ public class GenericFileRepository<ID extends Serializable & Comparable<ID>, Typ
     }
 
     @Override
-    public Optional<Type> delete(ID id) {
+    public Optional<Type> delete(Long ID) {
         // todo : HERE delete first line starting with ID from file
-        return super.delete(id);
+        return super.delete(ID);
     }
 
     @Override

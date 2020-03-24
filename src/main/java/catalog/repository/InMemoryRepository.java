@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * @author radu.
  */
-public class InMemoryRepository<ID extends Serializable & Comparable<ID>, Type extends BaseEntity<ID>>
+public class InMemoryRepository<ID extends Serializable, Type extends BaseEntity<ID>>
         implements Repository<ID, Type> {
     private Map<ID, Type> entities;
     private Validator<Type> validator;
