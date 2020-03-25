@@ -1,8 +1,5 @@
 package catalog.domain.validators;
 
-/**
- * Created by radu.
- */
 public class LaboratoryExeption extends RuntimeException{
 
     public LaboratoryExeption(String message) {

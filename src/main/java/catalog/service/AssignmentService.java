@@ -3,28 +3,33 @@ package catalog.service;
 import catalog.domain.LabProblem;
 import catalog.domain.Student;
 import catalog.domain.Assignment;
+import catalog.repository.GenericDataBaseRepository;
 import catalog.repository.Repository;
 import catalog.repository.RepositoryException;
+import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
+import com.sun.org.apache.xml.internal.utils.StylesheetPIHandler;
 
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 
-public class StudentProblemService {
+public class AssignmentService {
     private Repository<Long, Assignment> repository;
     private Repository<Long, Student> studentRepository;
     private Repository<Long, LabProblem> problemRepository;
 
-    public StudentProblemService(Repository<Long, Assignment> repository,
-                                 Repository<Long, Student> studentRepository,
-                                 Repository<Long, LabProblem> problemRepository) {
+    public AssignmentService(Repository<Long, Assignment> repository,
+                             Repository<Long, Student> studentRepository,
+                             Repository<Long, LabProblem> problemRepository) {
         this.repository = repository;
         this.studentRepository = studentRepository;
         this.problemRepository = problemRepository;
     }
 
-    public void addStudentProblem(Assignment assignment) throws RepositoryException {
+    public void addAssignment(Assignment assignment) throws RepositoryException {
         try {
             assert (this.studentRepository.findOne(assignment.getStudentID()).isPresent()); //  if student.isPresent
             assert (this.problemRepository.findOne(assignment.getProblemID()).isPresent()); //      and problem.isPresent
@@ -34,7 +39,7 @@ public class StudentProblemService {
         }
     }
 
-    public Set<Assignment> getAllStudentProblems() {
+    public Set<Assignment> getAllAssignments() {
         Iterable<Assignment> studentProblems = this.repository.findAll();
         return StreamSupport.stream(studentProblems.spliterator(), false).collect(Collectors.toSet());
     }
@@ -45,25 +50,11 @@ public class StudentProblemService {
      * @return Set<Student>
      */
     public Set<Student> filterByProblem(LabProblem labProblem) {
-        Iterable<Student> students = this.studentRepository.findAll();
-
-        return StreamSupport.stream(students.spliterator(), false)                              //  for student in studentRepo
-                .filter(student -> this.repository.findOne(student.getId()).isPresent() &&              //      if repo.getStudent(student)
-                                        this.repository.findOne(student.getId()).get().getProblemID()   //              .getProblemID
-                                            .equals(labProblem.getId()))                                //              == labProblem.getID
-                .collect(Collectors.toSet());                                                           //          toReturn.add(student)
-        /*
-        // Equivalent iterative
-        Set<Student> studentsWithProblem = new HashSet<>();
-        for(Student student : this.studentRepository.findAll()) {
-            if (this.repository.findOne(student.getId()).isPresent() &&
-                    this.repository.findOne(student.getId()).get().getProblemID()
-                            .equals(labProblem.getId())) {
-                studentsWithProblem.add(student);
-            }
-        }
-        return studentsWithProblem;
-         */
+        return StreamSupport.stream(this.repository.findAll().spliterator(), false)
+                .filter(assignment -> assignment.getProblemID().equals(labProblem.getId()))
+                .map(assignment -> this.studentRepository.findOne(assignment.getStudentID()).isPresent() ?
+                        this.studentRepository.findOne(assignment.getStudentID()).get() : null)
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -72,17 +63,9 @@ public class StudentProblemService {
      * @return Set <Student>
      */
     public Set<Student> filterByProblem(int problemNumber) {
-        Iterable<Student> students = this.studentRepository.findAll();
-
-        return StreamSupport.stream(students.spliterator(), false)                      //  for student in studentRepo
-                .filter(student -> this.repository.findOne(student.getId()).isPresent() &&      //      if repo.getStudent(student)
-                        this.problemRepository.findOne(                                         //      if problemRepo.get(
-                                this.repository.findOne(student.getId()).get().getProblemID())  //          repo.getStudent(
-                                .isPresent() &&                                                 //              student)
-                        this.problemRepository.findOne(                                         //                  .getProblemID)
-                                this.repository.findOne(student.getId()).get().getProblemID()   //              ==
-                        ).get().getProblemNumber() == problemNumber)                            //              problemNumber
-                .collect(Collectors.toSet());                                                   //          toReturn.add(Student)
+        return StreamSupport.stream(this.problemRepository.findAll().spliterator(), false)
+                .filter(current -> current.getProblemNumber() == problemNumber).findAny()
+                .map(this::filterByProblem).orElse(null);
     }
 
     /**
@@ -91,17 +74,9 @@ public class StudentProblemService {
      * @return Set <LabProblem>
      */
     public Set<LabProblem> filterByStudent(String serialNumber) {
-        Iterable<LabProblem> problems = this.problemRepository.findAll();
-
-        return StreamSupport.stream(problems.spliterator(), false)
-                .filter(problem -> this.repository.findOne(problem.getId()).isPresent() &&
-                        this.studentRepository.findOne(
-                                this.repository.findOne(problem.getId()).get().getStudentID())
-                                .isPresent() &&
-                        this.studentRepository.findOne(
-                                this.repository.findOne(problem.getId()).get().getStudentID()
-                        ).get().getSerialNumber().equals(serialNumber))
-                .collect(Collectors.toSet());
+        return StreamSupport.stream(this.studentRepository.findAll().spliterator(), false)
+                .filter(current -> current.getSerialNumber().equals(serialNumber)).findAny()
+                .map(this::filterByStudent).orElse(null);
     }
 
     /**
@@ -110,16 +85,14 @@ public class StudentProblemService {
      * @return Set<LabProblem>
      */
     public Set<LabProblem> filterByStudent(Student student) {
-        Iterable<LabProblem> problems = this.problemRepository.findAll();
-
-        return StreamSupport.stream(problems.spliterator(), false)
-                .filter(problem -> this.repository.findOne(problem.getId()).isPresent() &&
-                                        this.repository.findOne(problem.getId()).get().getStudentID()
-                                            .equals(student.getId()))
+        return StreamSupport.stream(this.repository.findAll().spliterator(), false)
+                .filter(assignment -> assignment.getStudentID().equals(student.getId()))
+                .map(assignment -> this.problemRepository.findOne(assignment.getProblemID()).isPresent() ?
+                        this.problemRepository.findOne(assignment.getProblemID()).get() : null)
                 .collect(Collectors.toSet());
     }
 
-    public void removeStudentProblem(Assignment assignment) {
+    public void removeAssignment(Assignment assignment) {
         this.repository.delete(assignment.getId());
     }
 
@@ -145,5 +118,13 @@ public class StudentProblemService {
                 .filter(assignment -> this.repository.findOne(assignment.getId()).isPresent() &&
                         this.repository.findOne(assignment.getId()).get().getProblemID().equals(problem.getId()))
                 .forEach(assignment -> this.repository.delete(assignment.getId()));
+    }
+
+    public void close() {
+        if (this.repository instanceof GenericDataBaseRepository) {
+            ((GenericDataBaseRepository<Assignment>) this.repository).close();
+            ((GenericDataBaseRepository<Student>) this.studentRepository).close();
+            ((GenericDataBaseRepository<LabProblem>) this.problemRepository).close();
+        }
     }
 }

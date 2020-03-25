@@ -8,7 +8,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class LabProblemTest {
-    // todo : like labProblem
     private static final Long ID = new Long(1);
     private static final Long NEW_ID = new Long(2);
     private static final int PROBLEM_NUMBER = 1;
@@ -19,8 +18,6 @@ public class LabProblemTest {
     private static final String NEW_DESCRIPTION = "This is description 2.";
 
     private LabProblem labProblem;
-
-    // todo : write tests
 
     @Before
     public void setUp() throws Exception {

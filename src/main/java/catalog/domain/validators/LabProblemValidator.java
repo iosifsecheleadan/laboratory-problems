@@ -3,8 +3,6 @@ package catalog.domain.validators;
 import catalog.domain.LabProblem;
 
 public class LabProblemValidator implements Validator<LabProblem>{
-    // todo : like student
-
     @Override
     public void validate(LabProblem entity) throws ValidatorException {
         try {

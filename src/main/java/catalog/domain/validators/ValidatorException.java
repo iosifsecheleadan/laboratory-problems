@@ -1,9 +1,5 @@
 package catalog.domain.validators;
 
-/**
- * @author radu.
- */
-
 public class ValidatorException extends LaboratoryExeption {
     public ValidatorException(String message) {
         super(message);

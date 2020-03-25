@@ -18,4 +18,10 @@
         <name>Ungureanu Vlad</name>
         <group>927</group>
     </Student>
+    <Student>
+        <ID>4</ID>
+        <serialNumber>mama1234</serialNumber>
+        <name>Random Name .ORG</name>
+        <group>345</group>
+    </Student>
 </catalog.domain.Student>

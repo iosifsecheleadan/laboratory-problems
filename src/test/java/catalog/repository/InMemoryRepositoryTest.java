@@ -7,15 +7,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 import catalog.domain.validators.ValidatorException;
 
-import java.util.Set;
-
 import static org.junit.Assert.*;
 
 /**
  * @author radu.
  */
 public class InMemoryRepositoryTest {
-    // todo : write test functions
     InMemoryRepository<Long, Student> studentRepo;
     StudentValidator studentValidator;
     private final Student zero = new Student(0L,"00zr","Zero the Hero", 0);

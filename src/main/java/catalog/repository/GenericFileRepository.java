@@ -19,11 +19,12 @@ public class GenericFileRepository<Type extends BaseEntity<Long>>
     private final String fileName;
     private final String className;
 
-    public GenericFileRepository(Validator<Type> validator, String fileName, String className) {
+    public GenericFileRepository(Validator<Type> validator,
+                                 String fileName,
+                                 String className) {
         super(validator);
         this.fileName = fileName;
         this.className = className;
-
         this.loadData();
     }
 
@@ -54,7 +55,7 @@ public class GenericFileRepository<Type extends BaseEntity<Long>>
                     super.save(instance);
                 } catch (ValidatorException e) {
                     e.printStackTrace();
-                }
+                } catch (IllegalArgumentException ignored) {}
             });
         } catch (IOException e) {
             e.printStackTrace();
@@ -105,7 +106,7 @@ public class GenericFileRepository<Type extends BaseEntity<Long>>
             reader.close();
             boolean successful = tempFile.renameTo(inputFile);
         } catch(Exception e){
-            System.out.println(e);
+            e.printStackTrace();
         }
 
         return super.delete(ID);
@@ -138,10 +139,9 @@ public class GenericFileRepository<Type extends BaseEntity<Long>>
             reader.close();
             boolean successful = tempFile.renameTo(inputFile);
         } catch(Exception e){
-            System.out.println(e);
+            e.printStackTrace();
         }
 
         return super.update(entity);
     }
-
 }

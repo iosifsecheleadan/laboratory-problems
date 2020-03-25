@@ -74,4 +74,5 @@ public class SortingRepository<ID extends Serializable, Type extends BaseEntity<
         validator.validate(entity);
         return Optional.ofNullable(this.entities.computeIfPresent(entity.getId(), (k, v) -> entity));
     }
+
 }

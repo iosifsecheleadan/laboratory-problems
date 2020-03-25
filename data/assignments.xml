@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog.domain.Assignment>
+    <Assignment>
+        <ID>1</ID>
+        <studentID>1</studentID>
+        <problemID>1</problemID>
+    </Assignment>
+    <Assignment>
+        <ID>2</ID>
+        <studentID>1</studentID>
+        <problemID>2</problemID>
+    </Assignment>
+    <Assignment>
+        <ID>3</ID>
+        <studentID>1</studentID>
+        <problemID>3</problemID>
+    </Assignment>
+    <Assignment>
+        <ID>4</ID>
+        <studentID>2</studentID>
+        <problemID>4</problemID>
+    </Assignment>
+    <Assignment>
+        <ID>5</ID>
+        <studentID>2</studentID>
+        <problemID>1</problemID>
+    </Assignment>
+    <Assignment>
+        <ID>6</ID>
+        <studentID>3</studentID>
+        <problemID>2</problemID>
+    </Assignment>
+</catalog.domain.Assignment>

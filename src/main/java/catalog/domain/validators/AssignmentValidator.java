@@ -1,10 +1,10 @@
 package catalog.domain.validators;
 
-import catalog.domain.StudentProblem;
+import catalog.domain.Assignment;
 
-public class StudentProblemValidator implements Validator<StudentProblem> {
+public class AssignmentValidator implements Validator<Assignment> {
     @Override
-    public void validate(StudentProblem entity) throws ValidatorException {
+    public void validate(Assignment entity) throws ValidatorException {
         try {
             if (entity.getId() < 0) {
                 throw new ValidatorException("ID must be positive!");

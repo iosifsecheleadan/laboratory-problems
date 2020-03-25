@@ -43,8 +43,6 @@ public class LabProblem
     public void setProblemNumber(int problemNumber) { this.problemNumber = problemNumber; }
     public void setDescription(String description) { this.description = description; }
 
-    // todo : like student
-
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -55,6 +53,15 @@ public class LabProblem
         if (this.problemNumber != problem.problemNumber) return false;
         if (!this.description.equals(problem.description)) return false;
         return this.name.equals(problem.name);
+    }
+
+    @Override
+    public String toString() {
+        return "LabProblem{" +
+                "problemNumber=" + problemNumber +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 
     @Override

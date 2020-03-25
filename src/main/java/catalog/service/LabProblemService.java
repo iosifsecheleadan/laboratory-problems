@@ -2,6 +2,7 @@ package catalog.service;
 
 import catalog.domain.LabProblem;
 import catalog.domain.validators.ValidatorException;
+import catalog.repository.GenericDataBaseRepository;
 import catalog.repository.Repository;
 
 import java.util.HashSet;
@@ -66,5 +67,10 @@ public class LabProblemService {
         return StreamSupport.stream(problems.spliterator(), false)
                 .filter(problem -> problem.getProblemNumber() == problemNumber)
                 .findAny();
+    }
+
+    public void close() {
+        if (this.repository instanceof GenericDataBaseRepository)
+        ((GenericDataBaseRepository<LabProblem>) this.repository).close();
     }
 }

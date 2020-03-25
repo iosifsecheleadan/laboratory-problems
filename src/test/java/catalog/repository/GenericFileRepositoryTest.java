@@ -1,17 +1,14 @@
 package catalog.repository;
 
-import catalog.domain.LabProblem;
 import catalog.domain.Student;
 import catalog.domain.validators.StudentValidator;
 import catalog.domain.validators.Validator;
-import catalog.service.StudentService;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class GenericFileRepositoryTest {
-    // todo : write tests for all functions
     Validator<Student> studentValidator;
     Repository<Long, Student> studentRepository;
 

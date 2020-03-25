@@ -30,19 +30,14 @@ import java.io.*;
 
 public class GenericXMLRepository<Type extends BaseEntity<Long>> extends InMemoryRepository <Long, Type> {
     private final String fileName;
-    private Type type;
     private final String className;
     private String xmlClassName;
 
-    public GenericXMLRepository(Validator<Type> validator, String fileName, String className) {
+    public GenericXMLRepository(Validator<Type> validator,
+                                String fileName,
+                                String className) {
         super(validator);
         this.fileName = fileName;
-        Validator<Optional<Path>> valid = new Validator<Optional<Path>>() {
-            @Override
-            public void validate(Optional<Path> entity) throws ValidatorException {
-                return;
-            }
-        };
         this.className = className;
         this.xmlClassName = className.substring(className.lastIndexOf('.') + 1);
         this.loadData();
@@ -177,11 +172,9 @@ public class GenericXMLRepository<Type extends BaseEntity<Long>> extends InMemor
             trimWhitespace(rootNode);
             StreamResult result = new StreamResult(this.fileName);
             transformer.transform(source, result);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return super.update(entity);
     }
 
@@ -201,7 +194,6 @@ public class GenericXMLRepository<Type extends BaseEntity<Long>> extends InMemor
             trimWhitespace(rootNode);
             StreamResult result = new StreamResult(this.fileName);
             transformer.transform(source, result);
-
         } catch (Exception e) {
             e.printStackTrace();
         }

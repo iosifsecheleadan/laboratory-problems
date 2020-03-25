@@ -1,6 +1,8 @@
 package catalog.service;
 
 import catalog.domain.validators.ValidatorException;
+import catalog.repository.GenericDataBaseRepository;
+import catalog.repository.GenericFileRepository;
 import catalog.repository.Repository;
 import catalog.domain.Student;
 
@@ -36,12 +38,8 @@ public class StudentService {
      */
     public Set<Student> filterByName(String string) {
         Iterable<Student> students = repository.findAll();
-        //version 1
-//        Set<Student> filteredStudents = StreamSupport.stream(students.spliterator(), false)
-//                .filter(student -> student.getName().contains(s)).collect(Collectors.toSet());
-
-        //version 2
         Set<Student> filtered= new HashSet<>();
+
         students.forEach(filtered::add);
         filtered.removeIf(student -> !student.getName().contains(string));
 
@@ -65,7 +63,6 @@ public class StudentService {
     }
 
     public void removeStudent(Student student) {
-
         this.repository.delete(student.getId());
     }
 
@@ -74,5 +71,11 @@ public class StudentService {
         return StreamSupport.stream(students.spliterator(), false)
                 .filter(student -> student.getSerialNumber().equals(serialNumber))
                 .findAny();
+    }
+
+    public void close() {
+        if (this.repository instanceof GenericDataBaseRepository) {
+            ((GenericDataBaseRepository<Student>) this.repository).close();
+        }
     }
 }

@@ -2,12 +2,12 @@ package catalog.ui;
 
 import catalog.domain.LabProblem;
 import catalog.domain.Student;
-import catalog.domain.StudentProblem;
+import catalog.domain.Assignment;
 import catalog.domain.validators.LaboratoryExeption;
 import catalog.domain.validators.ValidatorException;
 import catalog.repository.RepositoryException;
 import catalog.service.LabProblemService;
-import catalog.service.StudentProblemService;
+import catalog.service.AssignmentService;
 import catalog.service.StudentService;
 
 import java.io.BufferedReader;
@@ -15,22 +15,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-/**
- * @author radu.
- */
-
 
 public class Console {
     private StudentService studentService;
     private LabProblemService labProblemService;
-    private StudentProblemService studentProblemService;
+    private AssignmentService assignmentService;
 
     private BufferedReader console;
 
-    public Console(StudentService studentService, LabProblemService labProblemService, StudentProblemService studentProblemService) {
+    public Console(StudentService studentService, LabProblemService labProblemService, AssignmentService assignmentService) {
         this.studentService = studentService;
         this.labProblemService = labProblemService;
-        this.studentProblemService = studentProblemService;
+        this.assignmentService = assignmentService;
         this.console = new BufferedReader(new InputStreamReader(System.in));
     }
 
@@ -40,18 +36,16 @@ public class Console {
         List<String> userOptions = new ArrayList<>();
         while (true) {
             try {
-                //System.out.println("Give command [add | remove | print | filter | report | help | exit]");
                 System.out.println("Give command [add | remove | filter | report | help | exit]");
                 userInput = this.console.readLine();
                 userOptions = new ArrayList<>(Arrays.asList(userInput.split(" ")));
                 switch (userOptions.get(0)) {
                     case "add"      :   this.add(userOptions);                  break;
                     case "remove"   :   this.remove(userOptions);               break;
-                    //case "print"    :   this.print(userOptions);                break;
                     case "filter"   :   this.filter(userOptions);               break;
-                    case "report"  :   this.report(userOptions);                break;
+                    case "report"   :   this.report(userOptions);               break;
                     case "help"     :   this.help();                            break;
-                    case "exit"     :   return;
+                    case "exit"     :   this.exit();                            return;
                     default:    System.out.println("Wrong input. Try again.");  break;
                 }
             } catch (IOException impossible) {
@@ -66,6 +60,8 @@ public class Console {
                 System.out.println("Problem encountered while VALIDATING data : \n\t" + ex.getMessage());
             } catch (LaboratoryExeption ex) {
                 System.out.println("Problem encountered in the application : \n\t" + ex.getMessage());
+            } catch (Exception ex) {
+                System.out.println("Probably wrong input. Here's the error :\n\t" + ex.getClass() + " - " + ex.getMessage());
             }
         }
     }
@@ -102,7 +98,7 @@ public class Console {
                     break;
                 } case "student": {
                     System.out.println("There are " +
-                            this.studentProblemService.filterByStudent(
+                            this.assignmentService.filterByStudent(
                                     userOptions.get(3)).size() +
                             " Lab Problems for given Student serial number.");
                     break;
@@ -140,7 +136,7 @@ public class Console {
                     break;
                 } case "problem": {
                     System.out.println("There are " +
-                            this.studentProblemService.filterByProblem(Integer.parseInt(
+                            this.assignmentService.filterByProblem(Integer.parseInt(
                                     userOptions.get(3))).size() +
                             " Students with given problem number.");
                     break;
@@ -195,7 +191,7 @@ public class Console {
                     break;
                 } case "student": {
                     System.out.println("Lab Problems assigned to Students with given serial number :");
-                    this.studentProblemService.filterByStudent(
+                    this.assignmentService.filterByStudent(
                             userOptions.get(3))
                             .forEach(System.out::println);
                     break;
@@ -234,7 +230,7 @@ public class Console {
                     break;
                 } case "problem": {
                     System.out.println("Students assigned with given problem number :");
-                    this.studentProblemService.filterByProblem(
+                    this.assignmentService.filterByProblem(
                             Integer.parseInt(userOptions.get(3)))
                             .forEach(System.out::println);
                     break;
@@ -255,32 +251,6 @@ public class Console {
         }
     }
 
-/*
-    private void print(List<String> userOptions) {
-        try {
-            if (userOptions.size() <= 1) throw new AssertionError();
-            switch (userOptions.get(1)) {
-                case "students"     : this.printStudents(); break;
-                case "problems"     : this.printProblems(); break;
-                default: throw new WrongInputException();
-            }
-        } catch (AssertionError | IndexOutOfBoundsException ignored) {
-            userOptions.add(this.readString("Give entities to print [students | problems]"));
-            this.print(userOptions);
-        }
-    }
-
-    private void printStudents() {
-        Set<Student> students = studentService.getAllStudents();
-        students.forEach(System.out::println);
-    }
-
-    private void printProblems() {
-        Set<LabProblem> labProblems = this.labProblemService.getAllLabProblems();
-        labProblems.forEach(System.out::println);
-    }
-*/
-
     private void remove(List<String> userOptions) {
         try {
             if (userOptions.size() <= 1) throw new AssertionError();
@@ -289,16 +259,16 @@ public class Console {
                     Student student = this.studentService.getBySerialNumber(
                             this.readString("Give student serial number")).get();
                     this.studentService.removeStudent(student);
-                    this.studentProblemService.removeStudent(student);
+                    this.assignmentService.removeStudent(student);
                     break;
                 case "problem"      :
                     LabProblem problem = this.labProblemService.getByProblemNumber(
                             this.readInt("Give problem number")).get();
                     this.labProblemService.removeLabProblem(problem);
-                    this.studentProblemService.removeProblem(problem);
+                    this.assignmentService.removeProblem(problem);
                     break;
                 case "assignment"   :
-                    this.studentProblemService.removeStudentProblem(
+                    this.assignmentService.removeAssignment(
                             this.readAssignment());
                     break;
                 default: throw new WrongInputException();
@@ -326,7 +296,7 @@ public class Console {
                                     "[ID,number,name,description]")));
                     break;
                 case "assignment"   :
-                    this.studentProblemService.addStudentProblem(
+                    this.assignmentService.addAssignment(
                             this.readAssignment());
                     break;
                 default: throw new WrongInputException();
@@ -341,15 +311,14 @@ public class Console {
         }
     }
 
-    private StudentProblem readAssignment() {
+    private Assignment readAssignment() {
         try {
-            return new StudentProblem(this.readString("Give assignment values separated by \",\"\n\t" +
+            return new Assignment(this.readString("Give assignment values separated by \",\"\n\t" +
                     "[ID,studentID,problemID]"));
         } catch (NoSuchElementException ignored) {
             throw new WrongInputException();
         }
     }
-
 
     private String readString(String message) {
         try {
@@ -382,7 +351,6 @@ public class Console {
             "\nhelp - Displays this message." +
             "\nadd [student | problem | assignment] - Adds a given entity" +
             "\nremove [student | problem | assignment] - Removes a given entity" +
-//            "\nprint [students | problems] - Prints all entities of chosen type" +
             "\nfilter [students | problems] [attribute] [value] - Prints entities depending on given filter" +
             "\nreport [students | problems] [attribute] [value] - Prints number of entities depending on given filter" +
             "\n\n\tAttributes : (used in filter and report)" +
@@ -393,6 +361,9 @@ public class Console {
     }
 
     private void exit() {
-        System.exit(0);
+        this.labProblemService.close();
+        this.studentService.close();
+        this.assignmentService.close();
+        return;
     }
 }

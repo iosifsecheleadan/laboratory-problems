@@ -23,8 +23,6 @@ public class StudentTest {
 
     private Student student;
 
-    // todo : write tests
-
     @Before
     public void setUp() throws Exception {
         student = new Student(ID, SERIAL_NUMBER, NAME, GROUP);
