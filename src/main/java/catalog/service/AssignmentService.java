@@ -2,7 +2,7 @@ package catalog.service;
 
 import catalog.domain.LabProblem;
 import catalog.domain.Student;
-import catalog.domain.StudentProblem;
+import catalog.domain.Assignment;
 import catalog.repository.Repository;
 import catalog.repository.RepositoryException;
 
@@ -12,11 +12,11 @@ import java.util.stream.StreamSupport;
 
 
 public class StudentProblemService {
-    private Repository<Long, StudentProblem> repository;
+    private Repository<Long, Assignment> repository;
     private Repository<Long, Student> studentRepository;
     private Repository<Long, LabProblem> problemRepository;
 
-    public StudentProblemService(Repository<Long, StudentProblem> repository,
+    public StudentProblemService(Repository<Long, Assignment> repository,
                                  Repository<Long, Student> studentRepository,
                                  Repository<Long, LabProblem> problemRepository) {
         this.repository = repository;
@@ -24,18 +24,18 @@ public class StudentProblemService {
         this.problemRepository = problemRepository;
     }
 
-    public void addStudentProblem(StudentProblem studentProblem) throws RepositoryException {
+    public void addStudentProblem(Assignment assignment) throws RepositoryException {
         try {
-            assert (this.studentRepository.findOne(studentProblem.getStudentID()).isPresent()); //  if student.isPresent
-            assert (this.problemRepository.findOne(studentProblem.getProblemID()).isPresent()); //      and problem.isPresent
-            this.repository.save(studentProblem);                                               //          save()
+            assert (this.studentRepository.findOne(assignment.getStudentID()).isPresent()); //  if student.isPresent
+            assert (this.problemRepository.findOne(assignment.getProblemID()).isPresent()); //      and problem.isPresent
+            this.repository.save(assignment);                                               //          save()
         } catch (AssertionError ignored) {                                                      //  else
             throw new RepositoryException("student or problem does not exist");                 //      throw Error
         }
     }
 
-    public Set<StudentProblem> getAllStudentProblems() {
-        Iterable<StudentProblem> studentProblems = this.repository.findAll();
+    public Set<Assignment> getAllStudentProblems() {
+        Iterable<Assignment> studentProblems = this.repository.findAll();
         return StreamSupport.stream(studentProblems.spliterator(), false).collect(Collectors.toSet());
     }
 
@@ -119,7 +119,7 @@ public class StudentProblemService {
                 .collect(Collectors.toSet());
     }
 
-    public void removeStudentProblem(StudentProblem assignment) {
+    public void removeStudentProblem(Assignment assignment) {
         this.repository.delete(assignment.getId());
     }
 
@@ -128,7 +128,7 @@ public class StudentProblemService {
      * @param student Student
      */
     public void removeStudent(Student student) {
-        Iterable<StudentProblem> assignments = this.repository.findAll();
+        Iterable<Assignment> assignments = this.repository.findAll();
         StreamSupport.stream(assignments.spliterator(), false)
                 .filter(assignment -> this.repository.findOne(assignment.getId()).isPresent() &&
                         this.repository.findOne(assignment.getId()).get().getStudentID().equals(student.getId()))
@@ -140,7 +140,7 @@ public class StudentProblemService {
      * @param problem LabProblem
      */
     public void removeProblem(LabProblem problem) {
-        Iterable<StudentProblem> assignments = this.repository.findAll();
+        Iterable<Assignment> assignments = this.repository.findAll();
         StreamSupport.stream(assignments.spliterator(), false)
                 .filter(assignment -> this.repository.findOne(assignment.getId()).isPresent() &&
                         this.repository.findOne(assignment.getId()).get().getProblemID().equals(problem.getId()))

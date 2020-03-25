@@ -135,7 +135,7 @@ public class StudentProblemServiceTest {
         this.serv.removeStudentProblem(new StudentProblem(null, null, null));
     }
 
-    // todo : correct these
+    // todo : correct filterProblem and filterStudent
 
     // filterByProblem doesn't work properly
     @Ignore
