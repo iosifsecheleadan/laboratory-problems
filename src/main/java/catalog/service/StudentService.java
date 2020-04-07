@@ -26,6 +26,10 @@ public class StudentService {
         this.repository.save(student);
     }
 
+    public void updateStudent(Student student) {
+        this.repository.update(student);
+
+    }
     public Set<Student> getAllStudents() {
         Iterable<Student> students = repository.findAll();
         return StreamSupport.stream(students.spliterator(), false).collect(Collectors.toSet());
@@ -78,4 +82,5 @@ public class StudentService {
             ((GenericDataBaseRepository<Student>) this.repository).close();
         }
     }
+
 }

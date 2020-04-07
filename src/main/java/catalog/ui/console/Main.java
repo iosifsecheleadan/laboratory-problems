@@ -1,4 +1,4 @@
-package catalog;
+package catalog.ui.console;
 
 import catalog.domain.LabProblem;
 import catalog.domain.Student;
@@ -15,8 +15,6 @@ import catalog.repository.Repository;
 import catalog.repository.GenericFileRepository;
 
 import catalog.service.*;
-
-import catalog.ui.Console;
 
 import java.io.BufferedReader;
 import java.io.IOException;

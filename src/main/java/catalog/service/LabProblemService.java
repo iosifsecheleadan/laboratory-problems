@@ -1,6 +1,7 @@
 package catalog.service;
 
 import catalog.domain.LabProblem;
+import catalog.domain.Student;
 import catalog.domain.validators.ValidatorException;
 import catalog.repository.GenericDataBaseRepository;
 import catalog.repository.Repository;
@@ -20,6 +21,10 @@ public class LabProblemService {
 
     public void addLabProblem(LabProblem labProblem) throws ValidatorException {
         this.repository.save(labProblem);
+    }
+
+    public void updateLabProblem(LabProblem labProblem) {
+        this.repository.update(labProblem);
     }
 
     public Set<LabProblem> getAllLabProblems() {

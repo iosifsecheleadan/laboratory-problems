@@ -119,14 +119,8 @@ public class GenericDataBaseRepository<Type extends BaseEntity<Long>>
 
     @Override
     public Optional<Type> update(Type entity) throws ValidatorException {
-        try {
-            Statement statement = this.connection.createStatement();
-            this.delete(entity.getId());
-            return this.save(entity);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return Optional.empty();
-        }
+        this.delete(entity.getId());
+        return this.save(entity);
     }
 
     public void close() {

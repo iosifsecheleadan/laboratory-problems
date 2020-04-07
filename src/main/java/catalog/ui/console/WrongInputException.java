@@ -1,4 +1,4 @@
-package catalog.ui;
+package catalog.ui.console;
 
 public class WrongInputException extends RuntimeException{
     public WrongInputException() {

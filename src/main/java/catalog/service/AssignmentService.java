@@ -127,4 +127,8 @@ public class AssignmentService {
             ((GenericDataBaseRepository<LabProblem>) this.problemRepository).close();
         }
     }
+
+    public void updateAssignment(Assignment assignment) {
+        this.repository.update(assignment);
+    }
 }

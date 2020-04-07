@@ -1,4 +1,4 @@
-package catalog.ui;
+package catalog.ui.console;
 
 import catalog.domain.LabProblem;
 import catalog.domain.Student;
@@ -36,12 +36,13 @@ public class Console {
         List<String> userOptions = new ArrayList<>();
         while (true) {
             try {
-                System.out.println("Give command [add | remove | filter | report | help | exit]");
+                System.out.println("Give command [add | remove | update | filter | report | help | exit]");
                 userInput = this.console.readLine();
                 userOptions = new ArrayList<>(Arrays.asList(userInput.split(" ")));
                 switch (userOptions.get(0)) {
                     case "add"      :   this.add(userOptions);                  break;
                     case "remove"   :   this.remove(userOptions);               break;
+                    case "update"   :   this.update(userOptions);               break;
                     case "filter"   :   this.filter(userOptions);               break;
                     case "report"   :   this.report(userOptions);               break;
                     case "help"     :   this.help();                            break;
@@ -274,7 +275,7 @@ public class Console {
                 default: throw new WrongInputException();
             }
         } catch (AssertionError | IndexOutOfBoundsException ignored) {
-            userOptions.add(this.readString("Give entities to add [student | problem | assignment]"));
+            userOptions.add(this.readString("Give entities to remove [student | problem | assignment]"));
             this.remove(userOptions);
         } catch (NoSuchElementException ignored) {
             throw new WrongInputException();
@@ -303,6 +304,36 @@ public class Console {
             }
         } catch (AssertionError | IndexOutOfBoundsException ignored) {
             userOptions.add(this.readString("Give entities to add [student | problem | assignment]"));
+            this.add(userOptions);
+        } catch (ValidatorException exception) {
+            throw new WrongInputException("Wrong input. " + exception.getMessage());
+        } catch (RepositoryException exception) {
+            throw new WrongInputException("Wrong input. " + exception.getMessage());
+        }
+    }
+
+    private void update(List<String> userOptions) {
+        try {
+            if (userOptions.size() <= 1) throw new AssertionError();
+            switch (userOptions.get(1)) {
+                case "student" :
+                    this.studentService.updateStudent(new Student(
+                            this.readString("Give student values separated by \",\"\n\t" +
+                                    "[ID,serialNumber,name,group]")));
+                    break;
+                case "problem" :
+                    this.labProblemService.updateLabProblem(new LabProblem(
+                            this.readString("Give problem values separated by \",\"\n\t" +
+                                    "[ID,number,name,description]")));
+                    break;
+                case "assignment" :
+                    this.assignmentService.updateAssignment(
+                            this.readAssignment());
+                    break;
+                default: throw new WrongInputException();
+            }
+        }  catch (AssertionError | IndexOutOfBoundsException ignored) {
+            userOptions.add(this.readString("Give entities to update [student | problem | assignment]"));
             this.add(userOptions);
         } catch (ValidatorException exception) {
             throw new WrongInputException("Wrong input. " + exception.getMessage());
@@ -350,6 +381,7 @@ public class Console {
             "\nexit - Exits the program." +
             "\nhelp - Displays this message." +
             "\nadd [student | problem | assignment] - Adds a given entity" +
+            "\nupdate [student | problem | assignment] - Updates a given entity" +
             "\nremove [student | problem | assignment] - Removes a given entity" +
             "\nfilter [students | problems] [attribute] [value] - Prints entities depending on given filter" +
             "\nreport [students | problems] [attribute] [value] - Prints number of entities depending on given filter" +
