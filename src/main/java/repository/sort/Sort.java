@@ -1,4 +1,4 @@
-package repository;
+package repository.sort;
 
 import java.util.Arrays;
 import java.util.Collections;

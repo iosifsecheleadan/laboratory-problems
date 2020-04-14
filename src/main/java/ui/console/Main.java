@@ -45,7 +45,7 @@ public class Main {
         String dataBaseName = "mppLabProbs";
 
         Validator<Student> studentValidator = new StudentValidator();
-        Validator<Problem> labProblemValidator = new ProblemValidator();
+        Validator<Problem> problemValidator = new ProblemValidator();
         Validator<Assignment> assignmentValidator = new AssignmentValidator();
 
         Repository<Long, Student> studentRepository = null;
@@ -60,7 +60,7 @@ public class Main {
                     case "file": {
                         studentRepository = new GenericFileRepository<>(studentValidator,
                                 studentFile, studentClass);
-                        labProblemRepository = new GenericFileRepository<>(labProblemValidator,
+                        labProblemRepository = new GenericFileRepository<>(problemValidator,
                                 problemFile, problemClass);
                         assignmentRepository = new GenericFileRepository<>(assignmentValidator,
                                 assignmentFile, assignmentClass);
@@ -68,7 +68,7 @@ public class Main {
                     } case "xml": {
                         studentRepository = new GenericXMLRepository<>(studentValidator,
                                 studentXML, studentClass);
-                        labProblemRepository = new GenericXMLRepository<>(labProblemValidator,
+                        labProblemRepository = new GenericXMLRepository<>(problemValidator,
                                 labProblemXML, problemClass);
                         assignmentRepository = new GenericXMLRepository<>(assignmentValidator,
                                 assignmentXML, assignmentClass);
@@ -76,7 +76,7 @@ public class Main {
                     } case "database": {
                         studentRepository = new GenericDataBaseRepository<>(studentValidator,
                                 host, password, user, dataBaseName, studentTable, studentClass);
-                        labProblemRepository = new GenericDataBaseRepository<>(labProblemValidator,
+                        labProblemRepository = new GenericDataBaseRepository<>(problemValidator,
                                 host, password, user, dataBaseName, problemTable, problemClass);
                         assignmentRepository = new GenericDataBaseRepository<>(assignmentValidator,
                                 host, password, user, dataBaseName, assignmentTable, assignmentClass);

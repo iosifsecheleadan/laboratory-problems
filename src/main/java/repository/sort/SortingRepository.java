@@ -1,8 +1,9 @@
-package repository;
+package repository.sort;
 
 import domain.entities.BaseEntity;
 import domain.validators.Validator;
 import domain.validators.ValidatorException;
+import repository.Repository;
 
 import java.io.Serializable;
 import java.util.*;

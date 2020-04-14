@@ -3,6 +3,7 @@ package repository;
 import domain.entities.BaseEntity;
 import domain.validators.Validator;
 import domain.validators.ValidatorException;
+import repository.sort.SortingRepository;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
@@ -76,6 +77,7 @@ public class GenericDataBaseRepository<Type extends BaseEntity<Long>>
         }
     }
 
+    @Override
     public Optional<Type> save(Type entity) throws ValidatorException {
         Optional<Type> optional = super.save(entity);
         if (optional.isPresent()) {
