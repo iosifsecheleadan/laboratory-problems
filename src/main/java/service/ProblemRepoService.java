@@ -1,6 +1,6 @@
 package service;
 
-import domain.LabProblem;
+import domain.entities.Problem;
 import domain.validators.ValidatorException;
 import repository.GenericDataBaseRepository;
 import repository.Repository;
@@ -11,23 +11,23 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class LabProblemService {
-    private Repository<Long, LabProblem> repository;
+public class ProblemRepoService implements ProblemService {
+    private Repository<Long, Problem> repository;
 
-    public LabProblemService(Repository<Long, LabProblem> repository) {
+    public ProblemRepoService(Repository<Long, Problem> repository) {
         this.repository = repository;
     }
 
-    public void addLabProblem(LabProblem labProblem) throws ValidatorException {
-        this.repository.save(labProblem);
+    public void addLabProblem(Problem problem) throws ValidatorException {
+        this.repository.save(problem);
     }
 
-    public void updateLabProblem(LabProblem labProblem) {
-        this.repository.update(labProblem);
+    public void updateLabProblem(Problem problem) {
+        this.repository.update(problem);
     }
 
-    public Set<LabProblem> getAllLabProblems() {
-        Iterable<LabProblem> labProblems = this.repository.findAll();
+    public Set<Problem> getAllLabProblems() {
+        Iterable<Problem> labProblems = this.repository.findAll();
         return StreamSupport.stream(labProblems.spliterator(), false).collect(Collectors.toSet());
     }
 
@@ -37,9 +37,9 @@ public class LabProblemService {
      * @param  string String
      * @return Set<LabProblem>
      */
-    public Set<LabProblem> filterByName(String string) {
-        Iterable<LabProblem> labProblems = this.repository.findAll();
-        Set<LabProblem> filtered = new HashSet<>();
+    public Set<Problem> filterByName(String string) {
+        Iterable<Problem> labProblems = this.repository.findAll();
+        Set<Problem> filtered = new HashSet<>();
 
         labProblems.forEach(filtered::add);
         filtered.removeIf(labProblem -> !labProblem.getName().contains(string));
@@ -52,9 +52,9 @@ public class LabProblemService {
      * @param string String
      * @return Set<LabProblem>
      */
-    public Set<LabProblem> filterByDescription(String string) {
-        Iterable<LabProblem> labProblems = this.repository.findAll();
-        Set<LabProblem> filtered = new HashSet<>();
+    public Set<Problem> filterByDescription(String string) {
+        Iterable<Problem> labProblems = this.repository.findAll();
+        Set<Problem> filtered = new HashSet<>();
 
         labProblems.forEach(filtered::add);
         filtered.removeIf(labProblem -> !labProblem.getDescription().contains(string));
@@ -62,12 +62,12 @@ public class LabProblemService {
         return filtered;
     }
 
-    public void removeLabProblem(LabProblem labProblem) {
-        this.repository.delete(labProblem.getId());
+    public void removeLabProblem(Problem problem) {
+        this.repository.delete(problem.getId());
     }
 
-    public Optional<LabProblem> getByProblemNumber(Integer problemNumber) {
-        Iterable<LabProblem> problems = this.repository.findAll();
+    public Optional<Problem> getByProblemNumber(int problemNumber) {
+        Iterable<Problem> problems = this.repository.findAll();
         return StreamSupport.stream(problems.spliterator(), false)
                 .filter(problem -> problem.getProblemNumber() == problemNumber)
                 .findAny();
@@ -75,6 +75,6 @@ public class LabProblemService {
 
     public void close() {
         if (this.repository instanceof GenericDataBaseRepository)
-        ((GenericDataBaseRepository<LabProblem>) this.repository).close();
+        ((GenericDataBaseRepository<Problem>) this.repository).close();
     }
 }

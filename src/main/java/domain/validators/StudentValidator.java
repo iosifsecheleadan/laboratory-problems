@@ -1,6 +1,6 @@
 package domain.validators;
 
-import domain.Student;
+import domain.entities.Student;
 
 public class StudentValidator implements Validator<Student> {
     @Override

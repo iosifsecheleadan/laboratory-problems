@@ -1,7 +1,7 @@
 package repository;
 
 import domain.validators.ValidatorException;
-import domain.BaseEntity;
+import domain.entities.BaseEntity;
 
 import java.util.Optional;
 

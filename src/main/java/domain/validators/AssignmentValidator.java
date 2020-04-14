@@ -1,6 +1,6 @@
 package domain.validators;
 
-import domain.Assignment;
+import domain.entities.Assignment;
 
 public class AssignmentValidator implements Validator<Assignment> {
     @Override

@@ -2,7 +2,7 @@ package repository;
 
 import domain.validators.Validator;
 import domain.validators.ValidatorException;
-import domain.BaseEntity;
+import domain.entities.BaseEntity;
 
 import java.io.Serializable;
 import java.util.HashMap;

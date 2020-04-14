@@ -1,24 +1,15 @@
 package repository;
 
-import domain.BaseEntity;
+import domain.entities.BaseEntity;
 import domain.validators.Validator;
 import domain.validators.ValidatorException;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 
 
-import com.sun.tools.javac.util.StringUtils;
 import org.w3c.dom.*;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.OutputKeys;
@@ -26,7 +17,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.*;
 
 public class GenericXMLRepository<Type extends BaseEntity<Long>> extends InMemoryRepository <Long, Type> {
     private final String fileName;

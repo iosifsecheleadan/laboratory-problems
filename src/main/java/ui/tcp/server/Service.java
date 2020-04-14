@@ -1,33 +1,32 @@
 package ui.tcp.server;
 
-import domain.Assignment;
-import domain.LabProblem;
-import domain.Student;
+import domain.entities.Assignment;
+import domain.entities.Problem;
+import domain.entities.Student;
 import domain.validators.LaboratoryExeption;
 import domain.validators.ValidatorException;
 import repository.RepositoryException;
-import service.AssignmentService;
-import service.LabProblemService;
-import service.StudentService;
 import ui.console.WrongInputException;
+import service.AssignmentService;
+import service.ProblemService;
+import service.StudentService;
 import ui.tcp.common.Message;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Service {
     private Socket socket;
     private StudentService studentService;
-    private LabProblemService labProblemService;
+    private ProblemService problemService;
     private AssignmentService assignmentService;
 
-    public Service(Socket client, StudentService studentService, LabProblemService labProblemService, AssignmentService assignmentService) {
+    public Service(Socket client, StudentService studentService, ProblemService problemService, AssignmentService assignmentService) {
         this.socket = client;
         this.studentService = studentService;
-        this.labProblemService = labProblemService;
+        this.problemService = problemService;
         this.assignmentService = assignmentService;
     }
 
@@ -96,9 +95,9 @@ public class Service {
                 this.studentService.addStudent(student);
                 return new Message("Added student", student.toString());
             } case "problem": {
-                LabProblem labProblem = new LabProblem(message.getBody());
-                this.labProblemService.addLabProblem(labProblem);
-                return new Message("Added Problem", labProblem.toString());
+                Problem problem = new Problem(message.getBody());
+                this.problemService.addLabProblem(problem);
+                return new Message("Added Problem", problem.toString());
             } case "assignment": {
                 Assignment assignment = new Assignment(message.getBody());
                 this.assignmentService.addAssignment(assignment);
@@ -116,10 +115,10 @@ public class Service {
                 this.assignmentService.removeStudent(student);
                 return new Message("Removed Student", student.toString());
             } case "problem": {
-                LabProblem labProblem = new LabProblem(message.getBody());
-                this.labProblemService.removeLabProblem(labProblem);
-                this.assignmentService.removeProblem(labProblem);
-                return new Message("Removed LabProblem", labProblem.toString());
+                Problem problem = new Problem(message.getBody());
+                this.problemService.removeLabProblem(problem);
+                this.assignmentService.removeProblem(problem);
+                return new Message("Removed LabProblem", problem.toString());
             } case "assignment": {
                 Assignment assignment = new Assignment(message.getBody());
                 this.assignmentService.removeAssignment(assignment);
@@ -137,10 +136,10 @@ public class Service {
                 return new Message("Updated Student with ID " + student.getId().toString(),
                         student.toString());
             } case "problem": {
-                LabProblem labProblem = new LabProblem(message.getBody());
-                this.labProblemService.updateLabProblem(labProblem);
-                return new Message("Updated Problem with ID " + labProblem.getId().toString(),
-                        labProblem.toString());
+                Problem problem = new Problem(message.getBody());
+                this.problemService.updateLabProblem(problem);
+                return new Message("Updated Problem with ID " + problem.getId().toString(),
+                        problem.toString());
             } case "assignment": {
                 Assignment assignment = new Assignment(message.getBody());
                 this.assignmentService.updateAssignment(assignment);
@@ -195,25 +194,25 @@ public class Service {
             case "name": {
                 String clientValue = message.getHead().split(" ")[3];
                 return new Message("Filtering Problems with given Name",
-                        this.labProblemService.filterByName(clientValue).stream()
-                                .map(LabProblem::toString)
+                        this.problemService.filterByName(clientValue).stream()
+                                .map(Problem::toString)
                                 .reduce("" ,(current, next) -> current + "; " + next));
             } case "description": {
                 String clientValue = message.getHead().split(" ")[3];
                 return new Message("Filtering Problems with given Description",
-                        this.labProblemService.filterByDescription(clientValue).stream()
-                                .map(LabProblem::toString)
+                        this.problemService.filterByDescription(clientValue).stream()
+                                .map(Problem::toString)
                                 .reduce("", (current, next) -> current + "; " + next));
             } case "student": {
                 String clientValue = message.getHead().split(" ")[3];
                 return new Message("Filtering Problems assigned to Student with given SerialNumber",
                         this.assignmentService.filterByStudent(clientValue).stream()
-                                .map(LabProblem::toString)
+                                .map(Problem::toString)
                                 .reduce("", (current, next) -> current + "; " + next));
             } case "all": {
                 return new Message("Filtering all Problems",
-                        this.labProblemService.getAllLabProblems().stream()
-                                .map(LabProblem::toString)
+                        this.problemService.getAllLabProblems().stream()
+                                .map(Problem::toString)
                                 .reduce("", (current, next) -> current + "; " + next));
             } default: return this.wrongInput();
         }
@@ -254,16 +253,16 @@ public class Service {
         switch (clientAttribute) {
             case "name": {
                 return new Message("Reporting Problems with given Name",
-                        String.valueOf(this.labProblemService.filterByName(clientValue).size()));
+                        String.valueOf(this.problemService.filterByName(clientValue).size()));
             } case "description": {
                 return new Message("Reporting Problems with given Description",
-                        String.valueOf(this.labProblemService.filterByDescription(clientValue).size()));
+                        String.valueOf(this.problemService.filterByDescription(clientValue).size()));
             } case "student": {
                 return new Message("Reporting Problems assigned to Student with given SerialNumber",
                         String.valueOf(this.assignmentService.filterByStudent(clientValue)));
             } case "all": {
                 return new Message("Reporting all Problems",
-                        String.valueOf(this.labProblemService.getAllLabProblems().size()));
+                        String.valueOf(this.problemService.getAllLabProblems().size()));
             } default: return this.wrongInput();
         }
     }

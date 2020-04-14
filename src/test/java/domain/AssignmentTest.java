@@ -1,5 +1,6 @@
-package catalog.domain;
+package domain;
 
+import domain.entities.Assignment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

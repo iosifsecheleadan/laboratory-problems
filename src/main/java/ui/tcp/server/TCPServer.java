@@ -1,7 +1,7 @@
 package ui.tcp.server;
 
 import service.AssignmentService;
-import service.LabProblemService;
+import service.ProblemService;
 import service.StudentService;
 
 import java.io.IOException;
@@ -11,13 +11,13 @@ import java.net.Socket;
 public class TCPServer {
     private final int PORT;
     private final StudentService studentService;
-    private final LabProblemService labProblemService;
+    private final ProblemService problemService;
     private final AssignmentService assignmentService;
 
-    public TCPServer(int port, StudentService studentService, LabProblemService labProblemService, AssignmentService assignmentService) {
+    public TCPServer(int port, StudentService studentService, ProblemService problemService, AssignmentService assignmentService) {
         this.PORT = port;
         this.studentService = studentService;
-        this.labProblemService = labProblemService;
+        this.problemService = problemService;
         this.assignmentService = assignmentService;
     }
 
@@ -29,7 +29,7 @@ public class TCPServer {
             System.out.println("Server running at port: " + this.PORT);
             while (true) {
                 Socket client = server.accept();
-                Service service = new Service(client, this.studentService, this.labProblemService, this.assignmentService);
+                Service service = new Service(client, this.studentService, this.problemService, this.assignmentService);
                 service.start();
             }
         } catch (IOException e) {

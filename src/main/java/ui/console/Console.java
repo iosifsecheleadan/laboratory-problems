@@ -1,13 +1,13 @@
 package ui.console;
 
-import domain.LabProblem;
-import domain.Student;
-import domain.Assignment;
+import domain.entities.Problem;
+import domain.entities.Student;
+import domain.entities.Assignment;
 import domain.validators.LaboratoryExeption;
 import domain.validators.ValidatorException;
 import repository.RepositoryException;
-import service.LabProblemService;
 import service.AssignmentService;
+import service.ProblemService;
 import service.StudentService;
 
 import java.io.BufferedReader;
@@ -18,14 +18,14 @@ import java.util.*;
 
 public class Console {
     private StudentService studentService;
-    private LabProblemService labProblemService;
+    private ProblemService problemService;
     private AssignmentService assignmentService;
 
     private BufferedReader console;
 
-    public Console(StudentService studentService, LabProblemService labProblemService, AssignmentService assignmentService) {
+    public Console(StudentService studentService, ProblemService problemService, AssignmentService assignmentService) {
         this.studentService = studentService;
-        this.labProblemService = labProblemService;
+        this.problemService = problemService;
         this.assignmentService = assignmentService;
         this.console = new BufferedReader(new InputStreamReader(System.in));
     }
@@ -87,13 +87,13 @@ public class Console {
             switch (userOptions.get(2)) {
                 case "name": {
                     System.out.println("There are " +
-                            this.labProblemService.filterByName(
+                            this.problemService.filterByName(
                                     userOptions.get(3)).size() +
                             " Lab Problems with given name.");
                     break;
                 } case "description": {
                     System.out.println("There are " +
-                            this.labProblemService.filterByDescription(
+                            this.problemService.filterByDescription(
                                     userOptions.get(3)).size() +
                             " Lab Problems with given description.");
                     break;
@@ -105,7 +105,7 @@ public class Console {
                     break;
                 } case "all": {
                     System.out.println("There are " +
-                            this.labProblemService.getAllLabProblems().size() +
+                            this.problemService.getAllLabProblems().size() +
                             " Lab Problems.");
                     break;
                 } default: throw new WrongInputException();
@@ -180,13 +180,13 @@ public class Console {
             switch (userOptions.get(2)) {
                 case "name":{
                     System.out.println("Lab Problems with given name :");
-                    this.labProblemService.filterByName(
+                    this.problemService.filterByName(
                             userOptions.get(3))
                             .forEach(System.out::println);
                     break;
                 } case "description": {
                     System.out.println("Lab Problems with given description :");
-                    this.labProblemService.filterByDescription(
+                    this.problemService.filterByDescription(
                             userOptions.get(3))
                             .forEach(System.out::println);
                     break;
@@ -198,7 +198,7 @@ public class Console {
                     break;
                 } case "all": {
                     System.out.println("All Lab Problems :");
-                    this.labProblemService.getAllLabProblems()
+                    this.problemService.getAllLabProblems()
                             .forEach(System.out::println);
                     break;
                 }
@@ -263,9 +263,9 @@ public class Console {
                     this.assignmentService.removeStudent(student);
                     break;
                 case "problem"      :
-                    LabProblem problem = this.labProblemService.getByProblemNumber(
+                    Problem problem = this.problemService.getByProblemNumber(
                             this.readInt("Give problem number")).get();
-                    this.labProblemService.removeLabProblem(problem);
+                    this.problemService.removeLabProblem(problem);
                     this.assignmentService.removeProblem(problem);
                     break;
                 case "assignment"   :
@@ -292,7 +292,7 @@ public class Console {
                                     "[ID,serialNumber,name,group]")));
                     break;
                 case "problem"      :
-                    this.labProblemService.addLabProblem(new LabProblem(
+                    this.problemService.addLabProblem(new Problem(
                             this.readString("Give problem values separated by \",\"\n\t" +
                                     "[ID,number,name,description]")));
                     break;
@@ -322,7 +322,7 @@ public class Console {
                                     "[ID,serialNumber,name,group]")));
                     break;
                 case "problem" :
-                    this.labProblemService.updateLabProblem(new LabProblem(
+                    this.problemService.updateLabProblem(new Problem(
                             this.readString("Give problem values separated by \",\"\n\t" +
                                     "[ID,number,name,description]")));
                     break;
@@ -393,7 +393,7 @@ public class Console {
     }
 
     private void exit() {
-        this.labProblemService.close();
+        this.problemService.close();
         this.studentService.close();
         this.assignmentService.close();
         return;

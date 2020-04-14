@@ -1,10 +1,8 @@
 package repository;
 
-import domain.BaseEntity;
+import domain.entities.BaseEntity;
 import domain.validators.Validator;
 import domain.validators.ValidatorException;
-import jdk.vm.ci.meta.SpeculationLog;
-import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;

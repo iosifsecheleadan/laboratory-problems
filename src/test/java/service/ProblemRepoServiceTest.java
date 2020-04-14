@@ -1,28 +1,28 @@
-package catalog.service;
+package service;
 
-import catalog.domain.LabProblem;
-import catalog.domain.validators.LabProblemValidator;
-import catalog.repository.GenericFileRepository;
-import catalog.repository.Repository;
+import domain.entities.Problem;
+import domain.validators.ProblemValidator;
+import repository.GenericFileRepository;
+import repository.Repository;
 import org.junit.*;
 
 import static org.junit.Assert.*;
 
-public class LabProblemServiceTest{
-    private Repository<Long, LabProblem> repo;
-    private LabProblemService serv;
-    private final LabProblem zero = new LabProblem(0L, 0, "ZeroTh", "You think just because it's small it's easy. But it ain't.");
-    private final LabProblem one = new LabProblem(1L, 1, "The FirSt", "No not furry. Firstly.");
-    private final LabProblem two = new LabProblem(2L, 2, "The SecoNd", "Time? What time? No time. Just money.");
+public class ProblemRepoServiceTest {
+    private Repository<Long, Problem> repo;
+    private ProblemRepoService serv;
+    private final Problem zero = new Problem(0L, 0, "ZeroTh", "You think just because it's small it's easy. But it ain't.");
+    private final Problem one = new Problem(1L, 1, "The FirSt", "No not furry. Firstly.");
+    private final Problem two = new Problem(2L, 2, "The SecoNd", "Time? What time? No time. Just money.");
 
     @Before
     public void setUp() {
-        this.repo = new GenericFileRepository<LabProblem>(
-                new LabProblemValidator(),
+        this.repo = new GenericFileRepository<Problem>(
+                new ProblemValidator(),
                 "./src/test/java/catalog/service/testLabProblems.txt",
-                "catalog.domain.LabProblem");
+                "domain.LabProblem");
         this.repo.findAll().forEach(labProblem -> this.repo.delete(labProblem.getId()));
-        this.serv = new LabProblemService(this.repo);
+        this.serv = new ProblemRepoService(this.repo);
     }
 
     @After
@@ -59,7 +59,7 @@ public class LabProblemServiceTest{
 
     @Test(expected = IllegalArgumentException.class)
     public void testDeleteLabProblem() {
-        this.serv.removeLabProblem(new LabProblem(null, 0, null, null));
+        this.serv.removeLabProblem(new Problem(null, 0, null, null));
     }
 
 

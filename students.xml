@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><catalog.domain.Student>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><catalog.domain.entities.Student>
     <student>
         <ID>1</ID>
         <serialNumber>siie1234</serialNumber>
@@ -19,4 +19,4 @@
         <name>Ungureanu Vlad</name>
         <group>927</group>
     </student>
-<student><ID>4</ID><serialNumber>bcie2345</serialNumber><name>Bogdan Costache</name><group>1</group></student></catalog.domain.Student>
+<student><ID>4</ID><serialNumber>bcie2345</serialNumber><name>Bogdan Costache</name><group>1</group></student></catalog.domain.entities.Student>

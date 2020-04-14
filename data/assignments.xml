@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog.domain.Assignment>
+<catalog.domain.entities.Assignment>
     <Assignment>
         <ID>1</ID>
         <studentID>1</studentID>
@@ -30,4 +30,4 @@
         <studentID>3</studentID>
         <problemID>2</problemID>
     </Assignment>
-</catalog.domain.Assignment>
+</catalog.domain.entities.Assignment>

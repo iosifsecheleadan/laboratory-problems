@@ -1,31 +1,31 @@
-package catalog.service;
+package service;
 
-import catalog.domain.LabProblem;
-import catalog.domain.Student;
-import catalog.domain.Assignment;
-import catalog.domain.validators.LabProblemValidator;
-import catalog.domain.validators.AssignmentValidator;
-import catalog.domain.validators.StudentValidator;
-import catalog.repository.GenericFileRepository;
-import catalog.repository.Repository;
-import catalog.repository.RepositoryException;
+import domain.entities.Problem;
+import domain.entities.Student;
+import domain.entities.Assignment;
+import domain.validators.ProblemValidator;
+import domain.validators.AssignmentValidator;
+import domain.validators.StudentValidator;
+import repository.GenericFileRepository;
+import repository.Repository;
+import repository.RepositoryException;
 import org.junit.*;
 
 import static org.junit.Assert.*;
 
-public class AssignmentServiceTest {
+public class AssignmentRepoServiceTest {
     private Repository<Long, Assignment> repo;
     private Repository<Long, Student> students;
-    private Repository<Long, LabProblem> labProblems;
-    private AssignmentService serv;
+    private Repository<Long, Problem> labProblems;
+    private AssignmentRepoService serv;
 
     private final Student Szero = new Student(0L,"00zr","Zero the Hero", 0);
     private final Student Sone = new Student(1L, "11st", "The First", 1);
     private final Student Stwo = new Student(2L, "22nd", "The Second", 1);
 
-    private final LabProblem LPzero = new LabProblem(0L, 0, "ZeroTh", "You think just because it's small it's easy. But it ain't.");
-    private final LabProblem LPone = new LabProblem(1L, 1, "The FirSt", "No not furry. Firstly.");
-    private final LabProblem LPtwo = new LabProblem(2L, 2, "The SecoNd", "Time? What time? No time. Just money.");
+    private final Problem LPzero = new Problem(0L, 0, "ZeroTh", "You think just because it's small it's easy. But it ain't.");
+    private final Problem LPone = new Problem(1L, 1, "The FirSt", "No not furry. Firstly.");
+    private final Problem LPtwo = new Problem(2L, 2, "The SecoNd", "Time? What time? No time. Just money.");
 
     private final Assignment SP00 = new Assignment(0L, 0L, 0L);
     private final Assignment SP01 = new Assignment(1L, 0L, 1L);
@@ -39,20 +39,20 @@ public class AssignmentServiceTest {
         this.repo = new GenericFileRepository<Assignment>(
                 new AssignmentValidator(),
                 "./src/test/java/catalog/service/testStudentProblems.txt",
-                "catalog.domain.StudentProblem");
+                "domain.StudentProblem");
         this.repo.findAll().forEach(studentProblem -> this.repo.delete(studentProblem.getId()));
 
         this.students = new GenericFileRepository<Student>(
                 new StudentValidator(),
                 "./src/test/java/catalog/service/testStudents.txt",
-                "catalog.domain.Student");
+                "domain.entities.Student");
 
-        this.labProblems = new GenericFileRepository<LabProblem>(
-                new LabProblemValidator(),
+        this.labProblems = new GenericFileRepository<Problem>(
+                new ProblemValidator(),
                 "./src/test/java/catalog/service/testLabProblems.txt",
-                "catalog.domain.LabProblem");
+                "domain.LabProblem");
 
-        this.serv = new AssignmentService(this.repo, this.students, this.labProblems);
+        this.serv = new AssignmentRepoService(this.repo, this.students, this.labProblems);
     }
 
     @After

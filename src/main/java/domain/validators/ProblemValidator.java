@@ -1,10 +1,10 @@
 package domain.validators;
 
-import domain.LabProblem;
+import domain.entities.Problem;
 
-public class LabProblemValidator implements Validator<LabProblem>{
+public class ProblemValidator implements Validator<Problem>{
     @Override
-    public void validate(LabProblem entity) throws ValidatorException {
+    public void validate(Problem entity) throws ValidatorException {
         try {
             if(entity.getProblemNumber() < 0) throw new ValidatorException("Problem Number Must Be Positive!");
         } catch (NullPointerException e) {

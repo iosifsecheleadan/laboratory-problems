@@ -1,12 +1,14 @@
-package domain;
+package domain.entities;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.io.Serializable;
+
 /**
  * @author radu.
  */
-public class BaseEntity<ID> {
+public class BaseEntity<ID> implements Serializable {
     private ID id;
 
     public BaseEntity() {}

@@ -1,10 +1,10 @@
 package ui.console;
 
-import domain.LabProblem;
-import domain.Student;
-import domain.Assignment;
+import domain.entities.Problem;
+import domain.entities.Student;
+import domain.entities.Assignment;
 
-import domain.validators.LabProblemValidator;
+import domain.validators.ProblemValidator;
 import domain.validators.AssignmentValidator;
 import domain.validators.StudentValidator;
 import domain.validators.Validator;
@@ -21,14 +21,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
-        String studentClass = "domain.Student";
-        String labProblemClass = "domain.LabProblem";
-        String assignmentClass = "domain.Assignment";
+        String studentClass = "domain.entities.Student";
+        String problemClass = "domain.entities.Problem";
+        String assignmentClass = "domain.entities.Assignment";
 
         String studentFile = "./data/students.txt";
-        String labProblemFile = "./data/labProblems.txt";
+        String problemFile = "./data/labProblems.txt";
         String assignmentFile = "./data/assignments.txt";
 
         String studentXML = "./data/students.xml";
@@ -36,7 +36,7 @@ public class Main {
         String assignmentXML = "./data/assignments.xml";
 
         String studentTable = "Student";
-        String labProblemTable = "LabProblem";
+        String problemTable = "LabProblem";
         String assignmentTable = "Assignment";
 
         String host = "localhost";
@@ -45,11 +45,11 @@ public class Main {
         String dataBaseName = "mppLabProbs";
 
         Validator<Student> studentValidator = new StudentValidator();
-        Validator<LabProblem> labProblemValidator = new LabProblemValidator();
+        Validator<Problem> labProblemValidator = new ProblemValidator();
         Validator<Assignment> assignmentValidator = new AssignmentValidator();
 
         Repository<Long, Student> studentRepository = null;
-        Repository<Long, LabProblem> labProblemRepository = null;
+        Repository<Long, Problem> labProblemRepository = null;
         Repository<Long, Assignment> assignmentRepository = null;
 
         BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
@@ -61,7 +61,7 @@ public class Main {
                         studentRepository = new GenericFileRepository<>(studentValidator,
                                 studentFile, studentClass);
                         labProblemRepository = new GenericFileRepository<>(labProblemValidator,
-                                labProblemFile, labProblemClass);
+                                problemFile, problemClass);
                         assignmentRepository = new GenericFileRepository<>(assignmentValidator,
                                 assignmentFile, assignmentClass);
                         break;
@@ -69,7 +69,7 @@ public class Main {
                         studentRepository = new GenericXMLRepository<>(studentValidator,
                                 studentXML, studentClass);
                         labProblemRepository = new GenericXMLRepository<>(labProblemValidator,
-                                labProblemXML, labProblemClass);
+                                labProblemXML, problemClass);
                         assignmentRepository = new GenericXMLRepository<>(assignmentValidator,
                                 assignmentXML, assignmentClass);
                         break;
@@ -77,7 +77,7 @@ public class Main {
                         studentRepository = new GenericDataBaseRepository<>(studentValidator,
                                 host, password, user, dataBaseName, studentTable, studentClass);
                         labProblemRepository = new GenericDataBaseRepository<>(labProblemValidator,
-                                host, password, user, dataBaseName, labProblemTable, labProblemClass);
+                                host, password, user, dataBaseName, problemTable, problemClass);
                         assignmentRepository = new GenericDataBaseRepository<>(assignmentValidator,
                                 host, password, user, dataBaseName, assignmentTable, assignmentClass);
                         break;
@@ -88,12 +88,12 @@ public class Main {
             }
         }
 
-        StudentService studentService = new StudentService(studentRepository);
-        LabProblemService labProblemService = new LabProblemService(labProblemRepository);
-        AssignmentService assignmentService = new AssignmentService(assignmentRepository,
+        StudentService studentService = new StudentRepoService(studentRepository);
+        ProblemService problemService = new ProblemRepoService(labProblemRepository);
+        AssignmentService assignmentService = new AssignmentRepoService(assignmentRepository,
                 studentRepository, labProblemRepository);
 
-        Console userInterface = new Console(studentService, labProblemService, assignmentService);
+        Console userInterface = new Console(studentService, problemService, assignmentService);
         userInterface.runConsole();
 
         System.out.println("Class dismissed!");

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog.domain.Student>
+<catalog.domain.entities.Student>
     <Student>
         <ID>1</ID>
         <serialNumber>siie1234</serialNumber>
@@ -18,4 +18,4 @@
         <name>Ungureanu Vlad</name>
         <group>927</group>
     </Student>
-</catalog.domain.Student>
+</catalog.domain.entities.Student>

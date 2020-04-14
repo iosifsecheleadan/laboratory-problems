@@ -1,11 +1,11 @@
-package catalog.repository;
+package repository;
 
-import catalog.domain.Student;
-import catalog.domain.validators.StudentValidator;
+import domain.entities.Student;
+import domain.validators.StudentValidator;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import catalog.domain.validators.ValidatorException;
+import domain.validators.ValidatorException;
 
 import static org.junit.Assert.*;
 

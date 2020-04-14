@@ -1,8 +1,8 @@
-package catalog.repository;
+package repository;
 
-import catalog.domain.Student;
-import catalog.domain.validators.StudentValidator;
-import catalog.domain.validators.Validator;
+import domain.entities.Student;
+import domain.validators.StudentValidator;
+import domain.validators.Validator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,7 +15,7 @@ public class GenericFileRepositoryTest {
     @Before
     public void setUp(){
         studentValidator = new StudentValidator();
-        studentRepository = new GenericFileRepository<Student>(studentValidator, "./data/students.txt","catalog.domain.Student");
+        studentRepository = new GenericFileRepository<Student>(studentValidator, "./data/students.txt","catalog.domain.entities.Student");
     }
 
     @Test
@@ -39,7 +39,7 @@ public class GenericFileRepositoryTest {
         studentRepository.save(new Student(5L, "abie2445", "Alexandru Badalescu", 1));
         studentRepository.save(new Student(6L, "mdie3345", "Mircea Dinescu", 2));
 
-        Repository<Long, Student> studentRepository2 = new GenericFileRepository<Student>(studentValidator, "./data/students.txt","catalog.domain.Student");
+        Repository<Long, Student> studentRepository2 = new GenericFileRepository<Student>(studentValidator, "./data/students.txt","catalog.domain.entities.Student");
 
         assertTrue(studentRepository2.findOne(5L).isPresent());
         assertTrue(studentRepository2.findOne(6L).isPresent());
@@ -54,7 +54,7 @@ public class GenericFileRepositoryTest {
         student.setGroup(5);
         studentRepository.update(student);
 
-        Repository<Long, Student> studentRepository2 = new GenericFileRepository<Student>(studentValidator, "./data/students.txt","catalog.domain.Student");
+        Repository<Long, Student> studentRepository2 = new GenericFileRepository<Student>(studentValidator, "./data/students.txt","catalog.domain.entities.Student");
         assertEquals(studentRepository2.findOne(1L).get().getGroup(), 5);
 
         student.setGroup(1);

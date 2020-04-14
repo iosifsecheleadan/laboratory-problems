@@ -1,11 +1,10 @@
 package repository;
 
-import domain.BaseEntity;
+import domain.entities.BaseEntity;
 import domain.validators.Validator;
 import domain.validators.ValidatorException;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;

@@ -1,6 +1,6 @@
 package repository;
 
-import domain.BaseEntity;
+import domain.entities.BaseEntity;
 import domain.validators.Validator;
 import domain.validators.ValidatorException;
 

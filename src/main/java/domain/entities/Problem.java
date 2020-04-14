@@ -1,4 +1,4 @@
-package domain;
+package domain.entities;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -6,22 +6,22 @@ import org.w3c.dom.Element;
 import java.util.Arrays;
 import java.util.List;
 
-public class LabProblem
+public class Problem
         extends BaseEntity<Long> {
     private int problemNumber;
     private String name;
     private String description;
 
-    public LabProblem(){}
+    public Problem(){}
 
-    public LabProblem(Long ID, int problemNumber, String name, String description) {
+    public Problem(Long ID, int problemNumber, String name, String description) {
         this.setId(ID);
         this.problemNumber = problemNumber;
         this.name = name;
         this.description = description;
     }
 
-    public LabProblem(String string) {
+    public Problem(String string) {
         List<String> values = Arrays.asList(string.split(","));
         this.setId(Long.parseLong(values.get(0)));
         this.problemNumber = Integer.parseInt(values.get(1));
@@ -48,7 +48,7 @@ public class LabProblem
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
 
-        LabProblem problem = (LabProblem) other;
+        Problem problem = (Problem) other;
 
         if (this.problemNumber != problem.problemNumber) return false;
         if (!this.description.equals(problem.description)) return false;

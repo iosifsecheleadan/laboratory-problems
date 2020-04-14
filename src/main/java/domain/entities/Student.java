@@ -1,4 +1,4 @@
-package domain;
+package domain.entities;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

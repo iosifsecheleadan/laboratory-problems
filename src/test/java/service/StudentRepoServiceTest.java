@@ -1,17 +1,17 @@
-package catalog.service;
+package service;
 
-import catalog.domain.Student;
-import catalog.domain.validators.StudentValidator;
-import catalog.repository.GenericFileRepository;
-import catalog.repository.Repository;
+import domain.entities.Student;
+import domain.validators.StudentValidator;
+import repository.GenericFileRepository;
+import repository.Repository;
 import org.junit.*;
 
 import static org.junit.Assert.*;
 
 
-public class StudentServiceTest {
+public class StudentRepoServiceTest {
     private Repository<Long, Student> repo;
-    private StudentService serv;
+    private StudentRepoService serv;
     private final Student zero = new Student(0L,"00zr","Zero the Hero", 0);
     private final Student one = new Student(1L, "11st", "The First", 1);
     private final Student two = new Student(2L, "22nd", "The Second", 1);
@@ -21,9 +21,9 @@ public class StudentServiceTest {
         this.repo = new GenericFileRepository<Student>(
                 new StudentValidator(),
                 "./src/test/java/catalog/service/testStudents.txt",
-                "catalog.domain.Student");
+                "domain.entities.Student");
         this.repo.findAll().forEach(student -> this.repo.delete(student.getId()));
-        this.serv = new StudentService(this.repo);
+        this.serv = new StudentRepoService(this.repo);
     }
 
     @After
