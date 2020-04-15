@@ -1,4 +1,4 @@
-package service;
+package service.blaa;
 
 import domain.entities.Student;
 import domain.validators.ValidatorException;
@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface StudentService {
-    // todo Write method specifications
     public void addStudent(Student student) throws ValidatorException;
     public void updateStudent(Student student) throws ValidatorException;
     public void removeStudent(Student student);

@@ -1,4 +1,4 @@
-package service;
+package service.blaa;
 
 import domain.entities.Assignment;
 import domain.entities.Problem;
@@ -8,7 +8,7 @@ import repository.RepositoryException;
 import java.util.Set;
 
 public interface AssignmentService {
-    // todo Write method specifications
+
     public void addAssignment(Assignment assignment) throws RepositoryException;
     public void removeAssignment(Assignment assignment);
     public void updateAssignment(Assignment assignment);
