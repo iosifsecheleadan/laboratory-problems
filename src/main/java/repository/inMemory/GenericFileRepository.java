@@ -1,4 +1,4 @@
-package repository;
+package repository.inMemory;
 
 import domain.entities.BaseEntity;
 import domain.validators.Validator;
@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * InMemoryRepository with Text File Storage
  * @author sechelea
  * @author vinczi
  * @param <Type> generic Type

@@ -1,6 +1,12 @@
 package ui.tcp.common;
 
-public class MessageException extends RuntimeException{
+import domain.validators.LaboratoryException;
+
+/**
+ * Custom LaboratoryException
+ * @author sechelea
+ */
+public class MessageException extends LaboratoryException {
     public MessageException(String message) {
         super(message);
     }

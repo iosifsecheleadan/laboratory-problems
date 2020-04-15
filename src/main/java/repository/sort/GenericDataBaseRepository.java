@@ -1,9 +1,8 @@
-package repository;
+package repository.sort;
 
 import domain.entities.BaseEntity;
 import domain.validators.Validator;
 import domain.validators.ValidatorException;
-import repository.sort.SortingRepository;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
@@ -11,8 +10,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 /**
- * @author sechelea
+ * SortingRepository with SQL Data Base Storage
  * @param <Type> generic Type
+ * @author sechelea
  */
 public class GenericDataBaseRepository<Type extends BaseEntity<Long>>
         extends SortingRepository<Long, Type> {
@@ -26,11 +26,11 @@ public class GenericDataBaseRepository<Type extends BaseEntity<Long>>
         super(validator);
         this.className = className;
         this.tableName = tableName;
-        this.setConnection();
+        this.setConnection(host, dataBaseName, user, password);
         this.loadData();
     }
 
-    private void setConnection(String host, String dataBaseName, String user, String passwd) {
+    private void setConnection(String host, String dataBaseName, String user, String password) {
         try {
             this.connection = DriverManager.getConnection(
                     String.format("jdbc:postgresql://%s/%s", host, dataBaseName), user, password);
@@ -130,6 +130,9 @@ public class GenericDataBaseRepository<Type extends BaseEntity<Long>>
         return this.save(entity);
     }
 
+    /**
+     * Close the Data Base Connection
+     */
     public void close() {
         try {
             this.connection.close();

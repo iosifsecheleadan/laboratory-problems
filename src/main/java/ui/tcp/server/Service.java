@@ -3,13 +3,13 @@ package ui.tcp.server;
 import domain.entities.Assignment;
 import domain.entities.Problem;
 import domain.entities.Student;
-import domain.validators.LaboratoryExeption;
+import domain.validators.LaboratoryException;
 import domain.validators.ValidatorException;
 import repository.RepositoryException;
-import ui.console.WrongInputException;
 import service.AssignmentService;
 import service.ProblemService;
 import service.StudentService;
+import ui.console.WrongInputException;
 import ui.tcp.common.Message;
 
 import java.io.IOException;
@@ -17,12 +17,23 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+/**
+ * Class for handling and mapping User Messages to specific Service calls
+ * @author sechelea
+ */
 public class Service {
     private Socket socket;
     private StudentService studentService;
     private ProblemService problemService;
     private AssignmentService assignmentService;
 
+    /**
+     * Parametrized Constructor
+     * @param client Socket
+     * @param studentService StudentService
+     * @param problemService ProblemService
+     * @param assignmentService AssignmentService
+     */
     public Service(Socket client, StudentService studentService, ProblemService problemService, AssignmentService assignmentService) {
         this.socket = client;
         this.studentService = studentService;
@@ -54,9 +65,8 @@ public class Service {
     }
 
     /**
-     * Interpret and return message
-     * Return appropriate response
-     * @param message - Message
+     * Interpret Message and return appropriate response
+     * @param message Message
      * @return Message
      */
     private Message run(Message message) {
@@ -79,7 +89,7 @@ public class Service {
             return new Message("Repository Error", e.getMessage());
         } catch (ValidatorException e) {
             return new Message("Validator Error", e.getMessage());
-        } catch (LaboratoryExeption e) {
+        } catch (LaboratoryException e) {
             return new Message("Laboratory Error", e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,6 +97,11 @@ public class Service {
         }
     }
 
+    /**
+     * Handle "add" message
+     * @param message Message
+     * @return Message
+     */
     private Message add(Message message) {
         String clientOption = message.getHead().split(" ")[1];
         switch (clientOption) {
@@ -106,6 +121,11 @@ public class Service {
         }
     }
 
+    /**
+     * Handle "remove" message
+     * @param message Message
+     * @return Message
+     */
     private Message remove(Message message) {
         String clientOption = message.getHead().split(" ")[1];
         switch (clientOption) {
@@ -127,6 +147,11 @@ public class Service {
         }
     }
 
+    /**
+     * Handle "update" message
+     * @param message Message
+     * @return Message
+     */
     private Message update(Message message) {
         String clientOption = message.getHead().split(" ")[1];
         switch (clientOption) {
@@ -149,6 +174,11 @@ public class Service {
         }
     }
 
+    /**
+     * Handle "filer" message
+     * @param message Message
+     * @return Message
+     */
     private Message filter(Message message) {
         String clientOption = message.getHead().split(" ")[1];
         switch (clientOption) {
@@ -158,6 +188,11 @@ public class Service {
         }
     }
 
+    /**
+     * Handle "filter students" message
+     * @param message Message
+     * @return Message
+     */
     private Message filterStudents(Message message) {
         String clientAttribute = message.getHead().split(" ")[2];
         switch (clientAttribute) {
@@ -188,6 +223,11 @@ public class Service {
         }
     }
 
+    /**
+     * Handle "filter problems" message
+     * @param message Message
+     * @return Message
+     */
     private Message filterProblems(Message message) {
         String clientAttribute = message.getHead().split(" ")[2];
         switch (clientAttribute) {
@@ -211,13 +251,18 @@ public class Service {
                                 .reduce("", (current, next) -> current + "; " + next));
             } case "all": {
                 return new Message("Filtering all Problems",
-                        this.problemService.getAllLabProblems().stream()
+                        this.problemService.getAllProblems().stream()
                                 .map(Problem::toString)
                                 .reduce("", (current, next) -> current + "; " + next));
             } default: return this.wrongInput();
         }
     }
 
+    /**
+     * Handle "report" message
+     * @param message Message
+     * @return Message
+     */
     private Message report(Message message) {
         String clientOption = message.getHead().split(" ")[1];
         switch (clientOption) {
@@ -227,6 +272,11 @@ public class Service {
         }
     }
 
+    /**
+     * Handle "report students" message
+     * @param message Message
+     * @return Message
+     */
     private Message reportStudents(Message message) {
         String clientAttribute = message.getHead().split(" ")[2];
         String clientValue = message.getHead().split(" ")[3];
@@ -247,6 +297,11 @@ public class Service {
         }
     }
 
+    /**
+     * Handle "report problems" message
+     * @param message Message
+     * @return Message
+     */
     private Message reportProblems(Message message) {
         String clientAttribute = message.getHead().split(" ")[2];
         String clientValue = message.getHead().split(" ")[3];
@@ -262,11 +317,15 @@ public class Service {
                         String.valueOf(this.assignmentService.filterByStudent(clientValue)));
             } case "all": {
                 return new Message("Reporting all Problems",
-                        String.valueOf(this.problemService.getAllLabProblems().size()));
+                        String.valueOf(this.problemService.getAllProblems().size()));
             } default: return this.wrongInput();
         }
     }
 
+    /**
+     * Return Help message with new line as ";"
+     * @return Message
+     */
     private Message help() {
         return new Message("Help Menu",
                 "Description : full command must be in command line and entity must be in arguments" +
@@ -281,6 +340,10 @@ public class Service {
                         "; | assignment [ID,studentID,problemID] ]");
     }
 
+    /**
+     * Return Wrong Input message
+     * @return Message
+     */
     private Message wrongInput() {
         return new Message("Wrong Input.", "Please Try Again.");
     }

@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import domain.validators.ValidatorException;
+import repository.inMemory.InMemoryRepository;
 
 import static org.junit.Assert.*;
 

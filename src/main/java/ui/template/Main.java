@@ -5,16 +5,28 @@ import domain.entities.Problem;
 import domain.entities.Student;
 
 import repository.Repository;
-import repository.spring.JdbcTemplateConfig;
+import repository.jdbcTemplate.JdbcTemplateConfig;
 
-import service.*;
-
+import service.AssignmentService;
+import service.ProblemService;
+import service.StudentService;
+import service.repo.AssignmentRepoService;
+import service.repo.ProblemRepoService;
+import service.repo.StudentRepoService;
 import ui.console.Console;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+/**
+ * Run program in Console with JdbcTemplate configured Repository
+ * @see JdbcTemplateConfig
+ * @author sechelea
+ */
 public class Main {
     public static void main(String[] args) {
+        // TODO Specifications for whole project
+        // TODO Tests for whole project
+
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(JdbcTemplateConfig.class);
         Repository<Long, Student> studentRepository = (Repository<Long, Student>) context.getBean("studentRepository");
@@ -27,6 +39,6 @@ public class Main {
                 studentRepository, labProblemRepository);
 
         Console userInterface = new Console(studentService, problemService, assignmentService);
-        userInterface.runConsole();
+        userInterface.run();
     }
 }

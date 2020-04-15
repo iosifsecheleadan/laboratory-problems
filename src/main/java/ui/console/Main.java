@@ -9,17 +9,28 @@ import domain.validators.AssignmentValidator;
 import domain.validators.StudentValidator;
 import domain.validators.Validator;
 
-import repository.GenericDataBaseRepository;
-import repository.GenericXMLRepository;
+import repository.sort.GenericDataBaseRepository;
+import repository.inMemory.GenericXMLRepository;
 import repository.Repository;
-import repository.GenericFileRepository;
+import repository.inMemory.GenericFileRepository;
 
-import service.*;
+import service.AssignmentService;
+import service.ProblemService;
+import service.StudentService;
+import service.repo.AssignmentRepoService;
+import service.repo.ProblemRepoService;
+import service.repo.StudentRepoService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+
+/**
+ * Run program in Console with File, XML or DataBase Repository
+ * @see Console
+ * @author sechelea
+ */
 public class Main {
     public static void main(String[] args) {
 
@@ -54,7 +65,7 @@ public class Main {
 
         BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
         while (studentRepository == null) {
-            System.out.println("Choose where to store your data [file | xml | database]");
+            System.out.println("Choose where to store your data [file | xml | database | exit]");
             try {
                 switch (console.readLine()) {
                     case "file": {
@@ -81,6 +92,7 @@ public class Main {
                         assignmentRepository = new GenericDataBaseRepository<>(assignmentValidator,
                                 host, password, user, dataBaseName, assignmentTable, assignmentClass);
                         break;
+                    } case "exit": { return;
                     } default : System.out.println("Wrong input. Try again."); break;
                 }
             } catch (IOException e) {
@@ -94,7 +106,7 @@ public class Main {
                 studentRepository, labProblemRepository);
 
         Console userInterface = new Console(studentService, problemService, assignmentService);
-        userInterface.runConsole();
+        userInterface.run();
 
         System.out.println("Class dismissed!");
     }

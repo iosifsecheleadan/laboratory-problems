@@ -1,0 +1,15 @@
+domain.entities
+domain.validators
+repository
+repository.inMemory
+repository.jdbcTemplate
+repository.sort
+service
+service.repo
+ui.console
+ui.rmi.client
+ui.rmi.server
+ui.tcp.client
+ui.tcp.common
+ui.tcp.server
+ui.template

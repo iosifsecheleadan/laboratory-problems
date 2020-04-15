@@ -2,9 +2,10 @@ package service;
 
 import domain.entities.Problem;
 import domain.validators.ProblemValidator;
-import repository.GenericFileRepository;
+import repository.inMemory.GenericFileRepository;
 import repository.Repository;
 import org.junit.*;
+import service.repo.ProblemRepoService;
 
 import static org.junit.Assert.*;
 
@@ -35,13 +36,13 @@ public class ProblemRepoServiceTest {
     @Test
     public void testAddNGet() throws Exception {
         this.serv.addLabProblem(this.zero);
-        assertTrue(this.serv.getAllLabProblems().contains(this.zero));
-        assertEquals(1, this.serv.getAllLabProblems().size());
+        assertTrue(this.serv.getAllProblems().contains(this.zero));
+        assertEquals(1, this.serv.getAllProblems().size());
         this.serv.addLabProblem(this.one);
         this.serv.addLabProblem(this.two);
-        assertTrue(this.serv.getAllLabProblems().contains(this.one));
-        assertTrue(this.serv.getAllLabProblems().contains(this.two));
-        assertEquals(3, this.serv.getAllLabProblems().size());
+        assertTrue(this.serv.getAllProblems().contains(this.one));
+        assertTrue(this.serv.getAllProblems().contains(this.two));
+        assertEquals(3, this.serv.getAllProblems().size());
     }
 
     @Test
@@ -49,12 +50,12 @@ public class ProblemRepoServiceTest {
         this.serv.addLabProblem(this.zero);
         this.serv.addLabProblem(this.one);
         this.serv.addLabProblem(this.two);
-        assertEquals(3, this.serv.getAllLabProblems().size());
+        assertEquals(3, this.serv.getAllProblems().size());
         this.serv.removeLabProblem(this.zero);
-        assertFalse(this.serv.getAllLabProblems().contains(this.zero));
+        assertFalse(this.serv.getAllProblems().contains(this.zero));
         this.serv.removeLabProblem(this.one);
         this.serv.removeLabProblem(this.two);
-        assertEquals(0, this.serv.getAllLabProblems().size());
+        assertEquals(0, this.serv.getAllProblems().size());
     }
 
     @Test(expected = IllegalArgumentException.class)

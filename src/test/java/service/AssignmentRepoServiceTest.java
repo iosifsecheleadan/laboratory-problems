@@ -6,10 +6,11 @@ import domain.entities.Assignment;
 import domain.validators.ProblemValidator;
 import domain.validators.AssignmentValidator;
 import domain.validators.StudentValidator;
-import repository.GenericFileRepository;
+import repository.inMemory.GenericFileRepository;
 import repository.Repository;
 import repository.RepositoryException;
 import org.junit.*;
+import service.repo.AssignmentRepoService;
 
 import static org.junit.Assert.*;
 
@@ -130,8 +131,6 @@ public class AssignmentRepoServiceTest {
     public void testDeleteStudentProblem() {
         this.serv.removeAssignment(new Assignment(null, null, null));
     }
-
-    // todo : correct filterProblem and filterStudent
 
     // filterByProblem doesn't work properly
     @Ignore

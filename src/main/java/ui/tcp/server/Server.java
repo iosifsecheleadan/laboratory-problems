@@ -9,16 +9,21 @@ import domain.validators.ProblemValidator;
 import domain.validators.StudentValidator;
 import domain.validators.Validator;
 
-import repository.GenericDataBaseRepository;
+import repository.sort.GenericDataBaseRepository;
 import repository.Repository;
 
-import service.AssignmentRepoService;
-import service.ProblemRepoService;
-import service.StudentRepoService;
+import service.repo.AssignmentRepoService;
+import service.repo.ProblemRepoService;
+import service.repo.StudentRepoService;
 import service.AssignmentService;
 import service.ProblemService;
 import service.StudentService;
 
+/**
+ * Run Server in Console at specific port on this machine
+ * @see TCPServer
+ * @author sechelea
+ */
 public class Server {
     private static final int PORT = 1504;
 

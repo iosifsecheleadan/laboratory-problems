@@ -7,6 +7,7 @@ import domain.validators.StudentValidator;
 import domain.validators.Validator;
 import org.junit.Before;
 import org.junit.Test;
+import repository.inMemory.GenericXMLRepository;
 
 import static org.junit.Assert.*;
 

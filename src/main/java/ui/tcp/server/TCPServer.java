@@ -8,12 +8,24 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Class for handling Client commands to Service
+ * @see Service
+ * @author sechelea
+ */
 public class TCPServer {
     private final int PORT;
     private final StudentService studentService;
     private final ProblemService problemService;
     private final AssignmentService assignmentService;
 
+    /**
+     * Parametrized Constructor
+     * @param port int
+     * @param studentService StudentService
+     * @param problemService ProblemService
+     * @param assignmentService AssignmentService
+     */
     public TCPServer(int port, StudentService studentService, ProblemService problemService, AssignmentService assignmentService) {
         this.PORT = port;
         this.studentService = studentService;

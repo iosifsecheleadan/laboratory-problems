@@ -1,4 +1,4 @@
-package repository;
+package repository.inMemory;
 
 import domain.entities.BaseEntity;
 import domain.validators.Validator;
@@ -19,6 +19,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 /**
+ * In Memory Repository with XML File Storage
  * @author vinczi
  * @param <Type> generic Type
  */

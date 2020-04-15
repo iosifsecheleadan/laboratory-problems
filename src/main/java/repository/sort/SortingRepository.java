@@ -10,6 +10,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * Implementation of Repository with In Memory Storage and Sorting mechanisms
+ * @param <ID>
+ * @param <Type>
+ * @author sechelea
+ */
 public class SortingRepository<ID extends Serializable, Type extends BaseEntity<ID>>
         implements Repository<ID, Type> {
     private Map<ID, Type> entities;
@@ -39,7 +45,6 @@ public class SortingRepository<ID extends Serializable, Type extends BaseEntity<
         sort.getAttributesReversed().forEach(attribute -> {
             allEntries.sort((first, second) -> {
                 try {
-
                     return ((Comparable) first.getClass().getField(attribute).get(first)).compareTo(
                             second.getClass().getField(attribute).get(second));
                 } catch (IllegalAccessException | NoSuchFieldException e) {

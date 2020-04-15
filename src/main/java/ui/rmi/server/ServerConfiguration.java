@@ -13,11 +13,20 @@ import domain.validators.ProblemValidator;
 import domain.validators.StudentValidator;
 import domain.validators.Validator;
 
-import repository.GenericDataBaseRepository;
+import repository.sort.GenericDataBaseRepository;
 import repository.Repository;
 
-import service.*;
+import service.AssignmentService;
+import service.ProblemService;
+import service.StudentService;
+import service.repo.AssignmentRepoService;
+import service.repo.ProblemRepoService;
+import service.repo.StudentRepoService;
 
+/**
+ * Server Configuration Class
+ * @author sechelea
+ */
 @Configuration
 public class ServerConfiguration {
     private static final String studentClass = "domain.entities.Student";
@@ -49,45 +58,44 @@ public class ServerConfiguration {
     private static final AssignmentService assignmentService = new AssignmentRepoService(assignmentRepository,
             studentRepository, problemRepository);
 
+
+    /**
+     * Student Service Bean
+     * @return RmiServiceExporter
+     */
     @Bean
     public RmiServiceExporter studentRmiServiceExporter() {
         RmiServiceExporter service = new RmiServiceExporter();
         service.setServiceName("StudentService");
         service.setServiceInterface(StudentService.class);
         service.setService(studentService);
-        // service.setService(new StudentRepoService(studentRepository));
         return service;
     }
-    @Bean
-    public StudentService studentService() {
-        return new StudentRepoService(studentRepository);
-    }
 
+    /**
+     * Problem Service Bean
+     * @return RmiServiceExporter
+     */
     @Bean
     public RmiServiceExporter problemRmiServiceExporter() {
         RmiServiceExporter service = new RmiServiceExporter();
         service.setServiceName("ProblemService");
         service.setServiceInterface(ProblemService.class);
         service.setService(problemService);
-        // service.setService(new ProblemRepoService(problemRepository));
         return service;
     }
-    @Bean
-    public ProblemService problemService() {
-        return new ProblemRepoService(problemRepository);
-    }
 
+    /**
+     * Assignment Service Bean
+     * @return RmiServiceExporter
+     */
     @Bean
     public RmiServiceExporter assignmentRmiServiceExporter() {
         RmiServiceExporter service = new RmiServiceExporter();
         service.setServiceName("AssignmentService");
         service.setServiceInterface(AssignmentService.class);
         service.setService(assignmentService);
-        // service.setService(new AssignmentRepoService(assignmentRepository, studentRepository, problemRepository));
         return service;
     }
-    @Bean
-    public AssignmentService assignmentService() {
-        return new AssignmentRepoService(assignmentRepository, studentRepository, problemRepository);
-    }
+
 }

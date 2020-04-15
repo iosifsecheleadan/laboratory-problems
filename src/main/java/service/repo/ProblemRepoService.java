@@ -1,9 +1,10 @@
-package service;
+package service.repo;
 
 import domain.entities.Problem;
 import domain.validators.ValidatorException;
 import repository.sort.GenericDataBaseRepository;
 import repository.Repository;
+import service.ProblemService;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -11,10 +12,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * Implementation of ProblemService with Repository as Collection
+ * @author sechelea
+ */
 public class ProblemRepoService
         implements ProblemService {
     private Repository<Long, Problem> repository;
 
+    /**
+     * Parametrized Constructor
+     * @param repository Repository
+     */
     public ProblemRepoService(Repository<Long, Problem> repository) {
         this.repository = repository;
     }
@@ -27,32 +36,21 @@ public class ProblemRepoService
         this.repository.update(problem);
     }
 
-    public Set<Problem> getAllLabProblems() {
+    public Set<Problem> getAllProblems() {
         Iterable<Problem> labProblems = this.repository.findAll();
         return StreamSupport.stream(labProblems.spliterator(), false).collect(Collectors.toSet());
     }
 
-
-    /**
-     * Returns all LabProblems whose name contains the given string.
-     * @param  string String
-     * @return Set<LabProblem>
-     */
-    public Set<Problem> filterByName(String string) {
+    public Set<Problem> filterByName(String name) {
         Iterable<Problem> labProblems = this.repository.findAll();
         Set<Problem> filtered = new HashSet<>();
 
         labProblems.forEach(filtered::add);
-        filtered.removeIf(labProblem -> !labProblem.getName().contains(string));
+        filtered.removeIf(labProblem -> !labProblem.getName().contains(name));
 
         return filtered;
     }
 
-    /**
-     * Returns all LabProblems whose description contains the given string.
-     * @param string String
-     * @return Set<LabProblem>
-     */
     public Set<Problem> filterByDescription(String string) {
         Iterable<Problem> labProblems = this.repository.findAll();
         Set<Problem> filtered = new HashSet<>();

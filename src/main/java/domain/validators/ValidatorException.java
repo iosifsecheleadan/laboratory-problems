@@ -1,6 +1,10 @@
 package domain.validators;
 
-public class ValidatorException extends LaboratoryExeption {
+/**
+ * Custom LaboratoryException
+ * @author vinczi
+ */
+public class ValidatorException extends LaboratoryException {
     public ValidatorException(String message) {
         super(message);
     }

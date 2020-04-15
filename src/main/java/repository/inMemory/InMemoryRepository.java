@@ -1,14 +1,15 @@
-package repository;
+package repository.inMemory;
 
 import domain.validators.Validator;
 import domain.validators.ValidatorException;
 import domain.entities.BaseEntity;
+import repository.Repository;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
+ * Implementation of Repository with In Memory Storage
  * @author radu
  */
 public class InMemoryRepository<ID extends Serializable, Type extends BaseEntity<ID>>

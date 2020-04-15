@@ -1,16 +1,19 @@
 package domain.validators;
 
-public class LaboratoryExeption extends RuntimeException{
-
-    public LaboratoryExeption(String message) {
+/**
+ * Custom RuntimeException
+ * @author vinczi
+ */
+public class LaboratoryException extends RuntimeException{
+    public LaboratoryException(String message) {
         super(message);
     }
 
-    public LaboratoryExeption(String message, Throwable cause) {
+    public LaboratoryException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public LaboratoryExeption(Throwable cause) {
+    public LaboratoryException(Throwable cause) {
         super(cause);
     }
 }

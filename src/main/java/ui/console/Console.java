@@ -3,9 +3,12 @@ package ui.console;
 import domain.entities.Problem;
 import domain.entities.Student;
 import domain.entities.Assignment;
-import domain.validators.LaboratoryExeption;
+
+import domain.validators.LaboratoryException;
 import domain.validators.ValidatorException;
+
 import repository.RepositoryException;
+
 import service.AssignmentService;
 import service.ProblemService;
 import service.StudentService;
@@ -15,14 +18,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
+/**
+ * Class for handling and mapping User Input to specific Service calls
+ * @author sechelea
+ */
+public class Console implements Runnable{
+    private final StudentService studentService;
+    private final ProblemService problemService;
+    private final AssignmentService assignmentService;
 
-public class Console {
-    private StudentService studentService;
-    private ProblemService problemService;
-    private AssignmentService assignmentService;
+    private final BufferedReader console;
 
-    private BufferedReader console;
-
+    /**
+     * Parametrized Constructor
+     * @param studentService StudentService
+     * @param problemService ProblemService
+     * @param assignmentService AssignmentService
+     */
     public Console(StudentService studentService, ProblemService problemService, AssignmentService assignmentService) {
         this.studentService = studentService;
         this.problemService = problemService;
@@ -30,7 +42,11 @@ public class Console {
         this.console = new BufferedReader(new InputStreamReader(System.in));
     }
 
-    public void runConsole() {
+    /**
+     * Take and handle User Input indefinitely
+     */
+    @Override
+    public void run() {
         System.out.println("Type help for help.");
         String userInput;
         List<String> userOptions = new ArrayList<>();
@@ -59,7 +75,7 @@ public class Console {
                 System.out.println("Problem encountered at REPOSITORY level : \n\t" + ex.getMessage());
             } catch (ValidatorException ex) {
                 System.out.println("Problem encountered while VALIDATING data : \n\t" + ex.getMessage());
-            } catch (LaboratoryExeption ex) {
+            } catch (LaboratoryException ex) {
                 System.out.println("Problem encountered in the application : \n\t" + ex.getMessage());
             } catch (Exception ex) {
                 System.out.println("Probably wrong input. Here's the error :\n\t" + ex.getClass() + " - " + ex.getMessage());
@@ -67,6 +83,10 @@ public class Console {
         }
     }
 
+    /**
+     * Handle "report" call with given options
+     * @param userOptions List
+     */
     private void report(List<String> userOptions) {
         try {
             if (userOptions.size() <= 1) throw new AssertionError();
@@ -81,6 +101,10 @@ public class Console {
         }
     }
 
+    /**
+     * Handle "report problems" call with given options
+     * @param userOptions List
+     */
     private void reportProblems(List<String> userOptions) {
         try {
             if (userOptions.size() <= 2) throw new AssertionError();
@@ -105,7 +129,7 @@ public class Console {
                     break;
                 } case "all": {
                     System.out.println("There are " +
-                            this.problemService.getAllLabProblems().size() +
+                            this.problemService.getAllProblems().size() +
                             " Lab Problems.");
                     break;
                 } default: throw new WrongInputException();
@@ -119,6 +143,10 @@ public class Console {
         }
     }
 
+    /**
+     * Handle "report students" call with given options
+     * @param userOptions List
+     */
     private void reportStudents(List<String> userOptions) {
         try {
             if (userOptions.size() <= 2) throw new AssertionError();
@@ -158,9 +186,11 @@ public class Console {
         }
     }
 
+    /**
+     * Handle "filter" call with given options
+     * @param userOptions List
+     */
     private void filter(List<String> userOptions) {
-        // filter students containing given name or group
-        // filter Lab Problems containing given name, description or number
         try {
             if (userOptions.size() <= 1) throw new AssertionError();
             switch (userOptions.get(1)) {
@@ -174,6 +204,10 @@ public class Console {
         }
     }
 
+    /**
+     * Handle "filter problems" call with given options
+     * @param userOptions List
+     */
     private void filterProblems(List<String> userOptions) {
         try {
             if (userOptions.size() <= 2) throw new AssertionError();
@@ -198,7 +232,7 @@ public class Console {
                     break;
                 } case "all": {
                     System.out.println("All Lab Problems :");
-                    this.problemService.getAllLabProblems()
+                    this.problemService.getAllProblems()
                             .forEach(System.out::println);
                     break;
                 }
@@ -213,6 +247,10 @@ public class Console {
         }
     }
 
+    /**
+     * Handle "report students" call with given options
+     * @param userOptions List
+     */
     private void filterStudents(List<String> userOptions) {
         try {
             if (userOptions.size() <= 2) throw new AssertionError();
@@ -252,6 +290,10 @@ public class Console {
         }
     }
 
+    /**
+     * Handle "remove" call with given options
+     * @param userOptions List
+     */
     private void remove(List<String> userOptions) {
         try {
             if (userOptions.size() <= 1) throw new AssertionError();
@@ -282,6 +324,10 @@ public class Console {
         }
     }
 
+    /**
+     * Handle "add" call with given options
+     * @param userOptions List
+     */
     private void add(List<String> userOptions) {
         try {
             if (userOptions.size() <= 1) throw new AssertionError();
@@ -312,6 +358,10 @@ public class Console {
         }
     }
 
+    /**
+     * Handle "update" call with given options
+     * @param userOptions List
+     */
     private void update(List<String> userOptions) {
         try {
             if (userOptions.size() <= 1) throw new AssertionError();
@@ -342,6 +392,10 @@ public class Console {
         }
     }
 
+    /**
+     * Read an Assignment from Console
+     * @return Assignment
+     */
     private Assignment readAssignment() {
         try {
             return new Assignment(this.readString("Give assignment values separated by \",\"\n\t" +
@@ -351,6 +405,12 @@ public class Console {
         }
     }
 
+    /**
+     * Give a message to Console
+     * <br> Read a string from Console
+     * @param message String
+     * @return String
+     */
     private String readString(String message) {
         try {
             System.out.println(message);
@@ -361,7 +421,12 @@ public class Console {
         }
     }
 
-
+    /**
+     * Give a message to Console
+     * <br> Read an Integer from Console
+     * @param message String
+     * @return String
+     */
     private Integer readInt(String message) {
         try {
             System.out.println(message);
@@ -374,6 +439,9 @@ public class Console {
         }
     }
 
+    /**
+     * Print Help Message to Console
+     */
     private void help() {
         System.out.println(
             "\n\tWelcome to the Help Menu." +
@@ -392,10 +460,12 @@ public class Console {
         );
     }
 
+    /**
+     * Close all Services
+     */
     private void exit() {
         this.problemService.close();
         this.studentService.close();
         this.assignmentService.close();
-        return;
     }
 }

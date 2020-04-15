@@ -8,19 +8,25 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+/**
+ * Class for handling Service calls in new Thread
+ */
 public class Command implements Runnable{
     private Thread thread;
     private Message result;
-    //private boolean finished;
     private Message message;
     private Socket socket;
 
+    /**
+     * Parametrized Constructor
+     * @param server Socket
+     * @param command Message
+     */
     public Command(Socket server, Message command) {
         this.socket = server;
         this.thread = new Thread(this);
         this.message = command;
         this.result = null;
-        //this.finished = false;
     }
 
     /**
@@ -59,19 +65,16 @@ public class Command implements Runnable{
      */
     public boolean isFinished() {
         return this.result != null;
-        //return this.finished;
     }
 
     /**
      * Stop thread
      */
-    public void close() {
-        // this.thread.interrupt();
-    }
+    public void close() {}
 
     /**
      * Return result message separated by given separator
-     * @param separator - String
+     * @param separator String
      * @return String
      */
     public String toString(String separator) {

@@ -1,4 +1,4 @@
-package repository.spring;
+package repository.jdbcTemplate;
 
 import domain.entities.BaseEntity;
 import domain.validators.Validator;

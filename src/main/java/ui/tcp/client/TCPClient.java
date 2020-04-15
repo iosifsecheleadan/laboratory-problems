@@ -3,19 +3,27 @@ package ui.tcp.client;
 import ui.tcp.common.Message;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * Class for handling and mapping User Input to Service results
+ * @see Command
+ * @author sechelea
+ */
 public class TCPClient {
     private final String HOST;
     private final int PORT;
     private Map<String, Command> commands;
 
+    /**
+     * Parametrized Constructor
+     * @param host String
+     * @param port int
+     */
     public TCPClient(String host, int port) {
         this.HOST = host;
         this.PORT = port;
@@ -23,9 +31,9 @@ public class TCPClient {
     }
 
     /**
-     * Allow user to
-     *      create and run multiple commands one after the other
-     *      and receive their results as they finish
+     * Allow user to:
+     *      create and run multiple commands one after the other,
+     *      and receive their results as they finish.
      */
     public void start() {
         Scanner console = new Scanner(System.in);
@@ -43,7 +51,7 @@ public class TCPClient {
     }
 
     /**
-     * Create run and save command with given message
+     * Create, run and save command with given message
      * @param message - Message
      */
     private void startNewCommand(Message message) {

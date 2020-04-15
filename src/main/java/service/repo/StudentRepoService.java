@@ -1,9 +1,10 @@
-package service;
+package service.repo;
 
 import domain.validators.ValidatorException;
 import repository.sort.GenericDataBaseRepository;
 import repository.Repository;
 import domain.entities.Student;
+import service.StudentService;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -12,12 +13,17 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 /**
- * @author radu.
+ * Implementation of StudentService with Repository as Collection
+ * @author sechelea
  */
 public class StudentRepoService
         implements StudentService {
     private Repository<Long, Student> repository;
 
+    /**
+     * Parametrized Constructor
+     * @param repository Repository
+     */
     public StudentRepoService(Repository<Long, Student> repository) {
         this.repository = repository;
     }
@@ -35,11 +41,6 @@ public class StudentRepoService
         return StreamSupport.stream(students.spliterator(), false).collect(Collectors.toSet());
     }
 
-    /**
-     * Returns all students whose name contains the given string.
-     * @param string String
-     * @return Set<Student>
-     */
     public Set<Student> filterByName(String string) {
         Iterable<Student> students = repository.findAll();
         Set<Student> filtered= new HashSet<>();
@@ -50,12 +51,6 @@ public class StudentRepoService
         return filtered;
     }
 
-
-    /**
-     * Returns all Students who are in the given group.
-     * @param group int
-     * @return Set<Student>
-     */
     public Set<Student> filterByGroup(int group) {
         Iterable<Student> students = repository.findAll();
         Set<Student> filtered = new HashSet<>();

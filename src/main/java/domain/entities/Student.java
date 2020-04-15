@@ -7,8 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author radu.
- *
+ * @author vinczi
  */
 public class Student
         extends BaseEntity<Long>{
@@ -16,9 +15,18 @@ public class Student
     private String name;
     private int group;
 
-    public Student() {
-    }
+    /**
+     * Default Constructor
+     */
+    public Student() {}
 
+    /**
+     * Parametrized Constructor
+     * @param ID Long
+     * @param serialNumber String
+     * @param name String
+     * @param group int
+     */
     public Student(Long ID, String serialNumber, String name, int group) {
         this.setId(ID);
         this.serialNumber = serialNumber;
@@ -26,76 +34,80 @@ public class Student
         this.group = group;
     }
 
+    /**
+     * String Constructor
+     * Assumes String is formatted like "ID,serialNumber,name,group".
+     * @param string String
+     * @throws IndexOutOfBoundsException If the String is not formatted correctly.
+     * @throws NumberFormatException If the String does not contain appropriate values.
+     */
     public Student(String string) {
         List<String> values = Arrays.asList(string.split(","));
+        if (values.size() != 4) throw new IndexOutOfBoundsException("String not formatted accordingly");
         this.setId(Long.parseLong(values.get(0)));
         this.serialNumber = values.get(1);
         this.name = values.get(2);
         this.group = Integer.parseInt(values.get(3));
     }
 
-    public String getSerialNumber() {
-        return serialNumber;
-    }
+    /**
+     * Get Student serial number
+     * @return String
+     */
+    public String getSerialNumber() { return serialNumber; }
 
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
-    }
+    /**
+     * Get Student name
+     * @return String
+     */
+    public String getName() { return name; }
 
-    public String getName() {
-        return name;
-    }
+    /**
+     * Get Student group
+     * @return int
+     */
+    public int getGroup() { return group; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    /**
+     * Set Student serial number
+     * @param serialNumber String
+     */
+    public void setSerialNumber(String serialNumber) { this.serialNumber = serialNumber; }
 
-    public int getGroup() {
-        return group;
-    }
+    /**
+     * Set Student name
+     * @param name String
+     */
+    public void setName(String name) { this.name = name; }
 
-    public void setGroup(int group) {
-        this.group = group;
-    }
+    /**
+     * Set Student group
+     * @param group int
+     */
+    public void setGroup(int group) { this.group = group; }
 
+    /**
+     * Check if Student is equal to given Object
+     * @param that Object
+     * @return true - If given Object is a Student and student serial number, name and group are equal.
+     * <br> false - Otherwise
+     */
     @Override
-    public boolean equals(Object other) {
-        if (this == other) return true;
-        if (other == null || getClass() != other.getClass()) return false;
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (that == null || getClass() != that.getClass()) return false;
 
-        Student student = (Student) other;
+        Student student = (Student) that;
 
         if (group != student.group) return false;
         if (!serialNumber.equals(student.serialNumber)) return false;
         return name.equals(student.name);
     }
 
-    @Override
-    public int hashCode() {
-        int result = serialNumber.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + group;
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "serialNumber='" + serialNumber + '\'' +
-                ", name='" + name + '\'' +
-                ", group=" + group +
-                "} " + super.toString();
-    }
-
-    @Override
-    public String toString(String separator) {
-        return this.getId().toString() + separator
-                + this.serialNumber.toString() + separator
-                + this.name.toString() + separator
-                + String.valueOf(this.group);
-
-    }
-
+    /**
+     * Get Student as XML formatted String
+     * @return String
+     */
     @Override
     public String toXML() {
         return "<Student>" +
@@ -106,6 +118,11 @@ public class Student
                 "</Student>\n";
     }
 
+    /**
+     * Get Student as Element of given Document
+     * @param document Document (org.w3c.dom.Document)
+     * @return Element (org.w3c.dom.Element)
+     */
     @Override
     public Element toXML(Document document) {
         Element newStudent = (Element) document.createElement("Student");
@@ -127,5 +144,32 @@ public class Student
         newStudent.appendChild(newGroup);
 
         return newStudent;
+    }
+
+    /**
+     * Get Student String formatted with given separator
+     * @param separator String
+     * @return String
+     */
+    @Override
+    public String toString(String separator) {
+        return this.getId().toString() + separator
+                + this.serialNumber.toString() + separator
+                + this.name.toString() + separator
+                + String.valueOf(this.group);
+
+    }
+
+    /**
+     * Get basic Student String
+     * @return String
+     */
+    @Override
+    public String toString() {
+        return "Student{" +
+                "serialNumber='" + serialNumber + '\'' +
+                ", name='" + name + '\'' +
+                ", group=" + group +
+                "} " + super.toString();
     }
 }

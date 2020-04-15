@@ -2,23 +2,32 @@ package domain.validators;
 
 import domain.entities.Problem;
 
+/**
+ * @author vinczi
+ */
 public class ProblemValidator implements Validator<Problem>{
+
+    /**
+     * Check if Problem is valid
+     * @param problem Problem
+     * @throws ValidatorException If Problem does not have: name and description set, and group >= 0.
+     */
     @Override
-    public void validate(Problem entity) throws ValidatorException {
+    public void validate(Problem problem) throws ValidatorException {
         try {
-            if(entity.getProblemNumber() < 0) throw new ValidatorException("Problem Number Must Be Positive!");
+            if(problem.getProblemNumber() < 0) throw new ValidatorException("Problem Number Must Be Positive!");
         } catch (NullPointerException e) {
             throw new ValidatorException("LabProblem Object Is Null!");
         }
 
         try {
-            entity.getName().charAt(0);
+            problem.getName().charAt(0);
         } catch (StringIndexOutOfBoundsException e) {
             throw new ValidatorException("LabProblem Name Not Set!");
         }
 
         try {
-            entity.getDescription().charAt(0);
+            problem.getDescription().charAt(0);
         } catch (StringIndexOutOfBoundsException e) {
             throw new ValidatorException("LabProblem Name Not Set!");
         }

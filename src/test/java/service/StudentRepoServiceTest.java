@@ -2,9 +2,10 @@ package service;
 
 import domain.entities.Student;
 import domain.validators.StudentValidator;
-import repository.GenericFileRepository;
+import repository.inMemory.GenericFileRepository;
 import repository.Repository;
 import org.junit.*;
+import service.repo.StudentRepoService;
 
 import static org.junit.Assert.*;
 

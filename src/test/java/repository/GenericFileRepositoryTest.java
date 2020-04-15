@@ -5,6 +5,7 @@ import domain.validators.StudentValidator;
 import domain.validators.Validator;
 import org.junit.Before;
 import org.junit.Test;
+import repository.inMemory.GenericFileRepository;
 
 import static org.junit.Assert.*;
 

@@ -7,10 +7,18 @@ import service.AssignmentService;
 import service.ProblemService;
 import service.StudentService;
 
+/**
+ * Client Configuration Class
+ * @author sechelea
+ */
 @Configuration
 public class ClientConfiguration {
     private static final String host = "rmi://localhost:1099/";
 
+    /**
+     * Student Service Bean
+     * @return RmiProxyFactoryBean
+     */
     @Bean
     public RmiProxyFactoryBean studentRmiProxyFactoryBean() {
         RmiProxyFactoryBean service = new RmiProxyFactoryBean();
@@ -19,6 +27,10 @@ public class ClientConfiguration {
         return service;
     }
 
+    /**
+     * Problem Service Bean
+     * @return RmiProxyFactoryBean
+     */
     @Bean
     public RmiProxyFactoryBean problemRmiProxyFactoryBean() {
         RmiProxyFactoryBean service = new RmiProxyFactoryBean();
@@ -27,6 +39,10 @@ public class ClientConfiguration {
         return service;
     }
 
+    /**
+     * Assignment Service Bean
+     * @return RmiProxyFactoryBean
+     */
     @Bean
     public RmiProxyFactoryBean assignmentRmiProxyFactoryBean() {
         RmiProxyFactoryBean service = new RmiProxyFactoryBean();
