@@ -1,4 +1,4 @@
-package repository;
+package repository.inMemory;
 
 import domain.entities.Student;
 import domain.validators.StudentValidator;
@@ -20,7 +20,6 @@ public class InMemoryRepositoryTest {
     private final Student one = new Student(1L, "11st", "The First", 1);
     private final Student two = new Student(2L, "22nd", "The Second", 1);
 
-    @Test
     @Before
     public void setUp() throws Exception {
         studentValidator = new StudentValidator();
@@ -57,12 +56,6 @@ public class InMemoryRepositoryTest {
         assertTrue(studentRepo.findOne(1L).isPresent());
     }
 
-    @Ignore
-    @Test(expected = ValidatorException.class)
-    public void testSaveException() throws Exception {
-        fail("Not yet tested");
-    }
-
     @Test
     public void testDelete() throws Exception {
         studentRepo.delete(0L);
@@ -76,11 +69,5 @@ public class InMemoryRepositoryTest {
         zero.setGroup(1);
         studentRepo.update(zero);
         assertEquals(studentRepo.findOne(0L).get().getGroup(), 1);
-    }
-
-    @Ignore
-    @Test(expected = ValidatorException.class)
-    public void testUpdateException() throws Exception {
-        fail("Not yet tested");
     }
 }

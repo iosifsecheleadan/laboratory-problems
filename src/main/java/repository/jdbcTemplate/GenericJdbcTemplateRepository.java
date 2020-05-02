@@ -81,7 +81,12 @@ public class GenericJdbcTemplateRepository<Type extends BaseEntity<Long>>
 
     @Override
     public Optional<Type> update(Type entity) throws ValidatorException {
-        this.delete(entity.getId());
-        return this.save(entity);
+        if(super.update(entity).isPresent()) {
+            return Optional.of(entity);
+        } else {
+            this.delete(entity.getId());
+            this.save(entity);
+            return Optional.empty();
+        }
     }
 }

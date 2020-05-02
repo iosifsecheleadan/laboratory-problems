@@ -1,4 +1,4 @@
-package repository;
+package repository.inMemory;
 
 import domain.entities.Problem;
 import domain.entities.Student;
@@ -7,7 +7,7 @@ import domain.validators.StudentValidator;
 import domain.validators.Validator;
 import org.junit.Before;
 import org.junit.Test;
-import repository.inMemory.GenericXMLRepository;
+import repository.Repository;
 
 import static org.junit.Assert.*;
 
@@ -15,7 +15,7 @@ public class GenericXMLRepositoryTest {
     Validator<Student> studentValidator;
     Validator<Problem> labProblemValidator;
     Repository<Long, Student> studentRepository;
-    Repository<Long, Problem> labProblemRepository;
+    Repository<Long, Problem> problemRepository;
 
     Student student1 = new Student(4L, "bcie2345", "Bogdan Costache", 1);
     Problem problem1 = new Problem(4L, 4, "Fourth Lab Problem", "This is the fourth lab problem");
@@ -24,8 +24,8 @@ public class GenericXMLRepositoryTest {
     public void setUp() {
         studentValidator = new StudentValidator();
         labProblemValidator = new ProblemValidator();
-        studentRepository = new GenericXMLRepository<Student>(studentValidator, "./data/students.xml", "catalog.domain.entities.Student");
-        labProblemRepository = new GenericXMLRepository<Problem>(labProblemValidator, "./data/labProblems.xml", "catalog.domain.LabProblem");
+        studentRepository = new GenericXMLRepository<Student>(studentValidator, "./data/students.xml", "domain.entities.Student");
+        problemRepository = new GenericXMLRepository<Problem>(labProblemValidator, "./data/labProblems.xml", "domain.entities.Problem");
     }
 
     @Test
@@ -34,19 +34,19 @@ public class GenericXMLRepositoryTest {
         Student student = (Student) studentRepository.findOne(1L).get();
         assertEquals("siie1234", student.getSerialNumber());
 
-        assertTrue(labProblemRepository.findOne(1L).isPresent());
-        Problem problem = (Problem) labProblemRepository.findOne(1L).get();
+        assertTrue(problemRepository.findOne(1L).isPresent());
+        Problem problem = (Problem) problemRepository.findOne(1L).get();
         assertEquals(1, problem.getProblemNumber());
     }
 
     @Test
     public void testSave() {
         studentRepository.save(student1);
-        Repository<Long, Student> studentRepository2 = new GenericXMLRepository<Student>(studentValidator, "./data/students.xml", "catalog.domain.entities.Student");
+        Repository<Long, Student> studentRepository2 = new GenericXMLRepository<Student>(studentValidator, "./data/students.xml", "domain.entities.Student");
         assertTrue(studentRepository2.findOne(4L).isPresent());
 
-        labProblemRepository.save(problem1);
-        Repository<Long, Problem> labProblemRepository2 = new GenericXMLRepository<Problem>(labProblemValidator, "./data/labProblems.xml", "catalog.domain.LabProblem");
+        problemRepository.save(problem1);
+        Repository<Long, Problem> labProblemRepository2 = new GenericXMLRepository<Problem>(labProblemValidator, "./data/labProblems.xml", "domain.entities.Problem");
         assertTrue(labProblemRepository2.findOne(4L).isPresent());
     }
 
@@ -63,7 +63,7 @@ public class GenericXMLRepositoryTest {
         assertTrue(studentRepository.findOne(4L).isPresent());
         studentRepository.delete(4L);
         assertFalse(studentRepository.findOne(4L).isPresent());
-        Repository<Long, Student> studentRepository2 = new GenericXMLRepository<Student>(studentValidator, "./data/students.xml", "catalog.domain.entities.Student");
+        Repository<Long, Student> studentRepository2 = new GenericXMLRepository<Student>(studentValidator, "./data/students.xml", "domain.entities.Student");
         assertFalse(studentRepository2.findOne(4L).isPresent());
     }
 }

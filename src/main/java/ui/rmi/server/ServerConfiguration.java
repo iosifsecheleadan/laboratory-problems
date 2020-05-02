@@ -1,5 +1,6 @@
 package ui.rmi.server;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.rmi.RmiServiceExporter;
@@ -13,6 +14,7 @@ import domain.validators.ProblemValidator;
 import domain.validators.StudentValidator;
 import domain.validators.Validator;
 
+import repository.jdbcTemplate.JdbcTemplateConfig;
 import repository.sort.GenericDataBaseRepository;
 import repository.Repository;
 
@@ -46,18 +48,20 @@ public class ServerConfiguration {
     private static final Validator<Problem> problemValidator = new ProblemValidator();
     private static final Validator<Assignment> assignmentValidator = new AssignmentValidator();
 
-    private static final Repository<Long, Student> studentRepository = new GenericDataBaseRepository<Student>(studentValidator,
-            host, password, user, dataBaseName, studentTable, studentClass);
-    private static final Repository<Long, Problem> problemRepository = new GenericDataBaseRepository<Problem>(problemValidator,
-            host, password, user, dataBaseName, problemTable, problemClass);
-    private static final Repository<Long, Assignment> assignmentRepository = new GenericDataBaseRepository<Assignment>(assignmentValidator,
-            host, password, user, dataBaseName, assignmentTable, assignmentClass);
+    private static final AnnotationConfigApplicationContext jdbcConfig =
+            new AnnotationConfigApplicationContext(JdbcTemplateConfig.class);
+
+    private static final Repository<Long, Student> studentRepository = (Repository<Long, Student>)
+            jdbcConfig.getBean("studentRepository");
+    private static final Repository<Long, Problem> problemRepository = (Repository<Long, Problem>)
+            jdbcConfig.getBean("problemRepository");
+    private static final Repository<Long, Assignment> assignmentRepository = (Repository<Long, Assignment>)
+            jdbcConfig.getBean("assignmentRepository");
 
     private static final StudentService studentService = new StudentRepoService(studentRepository);
     private static final ProblemService problemService = new ProblemRepoService(problemRepository);
     private static final AssignmentService assignmentService = new AssignmentRepoService(assignmentRepository,
             studentRepository, problemRepository);
-
 
     /**
      * Student Service Bean
@@ -65,6 +69,7 @@ public class ServerConfiguration {
      */
     @Bean
     public RmiServiceExporter studentRmiServiceExporter() {
+
         RmiServiceExporter service = new RmiServiceExporter();
         service.setServiceName("StudentService");
         service.setServiceInterface(StudentService.class);

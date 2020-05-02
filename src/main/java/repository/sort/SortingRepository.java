@@ -4,8 +4,10 @@ import domain.entities.BaseEntity;
 import domain.validators.Validator;
 import domain.validators.ValidatorException;
 import repository.Repository;
+import repository.RepositoryException;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -43,13 +45,14 @@ public class SortingRepository<ID extends Serializable, Type extends BaseEntity<
         List<Type> allEntries = StreamSupport.stream(this.findAll().spliterator(), false)
                 .collect(Collectors.toList());
         sort.getAttributesReversed().forEach(attribute -> {
+            String getter = "get" + attribute.substring(0,1).toUpperCase() + attribute.substring(1);
             allEntries.sort((first, second) -> {
                 try {
-                    return ((Comparable) first.getClass().getField(attribute).get(first)).compareTo(
-                            second.getClass().getField(attribute).get(second));
-                } catch (IllegalAccessException | NoSuchFieldException e) {
-                    e.printStackTrace();
-                } return 0;
+                    return ((Comparable) first.getClass().getDeclaredMethod(getter).invoke(first)).compareTo(
+                            second.getClass().getDeclaredMethod(getter).invoke(second));
+                } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                    throw new RepositoryException("No such method " + getter);
+                }
             });
         });
         return allEntries;
@@ -77,8 +80,12 @@ public class SortingRepository<ID extends Serializable, Type extends BaseEntity<
         if (entity == null) {
             throw new IllegalArgumentException("id must not be null");
         }
+        if (! this.entities.containsKey(entity.getId())) {
+            return Optional.of(entity);
+        }
         validator.validate(entity);
-        return Optional.ofNullable(this.entities.computeIfPresent(entity.getId(), (k, v) -> entity));
+        this.entities.put(entity.getId(), entity);
+        return Optional.empty();
     }
 
 }

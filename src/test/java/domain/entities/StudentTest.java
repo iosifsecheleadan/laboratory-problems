@@ -1,4 +1,4 @@
-package domain;
+package domain.entities;
 
 import domain.entities.Student;
 import org.junit.After;
@@ -6,11 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
-/**
- * @author radu.
- */
 public class StudentTest {
     private static final Long ID = new Long(1);
     private static final Long NEW_ID = new Long(2);

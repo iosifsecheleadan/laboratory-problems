@@ -14,14 +14,20 @@ public class StudentValidator implements Validator<Student> {
     @Override
     public void validate(Student student) throws ValidatorException {
         try {
+            if (student.getId() < 0) throw new ValidatorException("Student Id Must Be Positive!");
+        } catch (NullPointerException ignored) {
+            throw new ValidatorException("Student Object is null!");
+        }
+
+        try {
             student.getSerialNumber().charAt(0);
-        } catch (StringIndexOutOfBoundsException e) {
+        } catch (StringIndexOutOfBoundsException | NullPointerException e) {
             throw new ValidatorException("Serial Number Not Set!");
         }
 
         try {
             student.getName().charAt(0);
-        } catch (StringIndexOutOfBoundsException e) {
+        } catch (StringIndexOutOfBoundsException | NullPointerException e) {
             throw new ValidatorException("Student Name Not Set!");
         }
 

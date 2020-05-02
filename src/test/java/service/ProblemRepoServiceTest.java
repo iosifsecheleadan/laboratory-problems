@@ -20,8 +20,8 @@ public class ProblemRepoServiceTest {
     public void setUp() {
         this.repo = new GenericFileRepository<Problem>(
                 new ProblemValidator(),
-                "./src/test/java/catalog/service/testLabProblems.txt",
-                "domain.LabProblem");
+                "./src/test/java/service/testLabProblems.txt",
+                "domain.entities.Problem");
         this.repo.findAll().forEach(labProblem -> this.repo.delete(labProblem.getId()));
         this.serv = new ProblemRepoService(this.repo);
     }

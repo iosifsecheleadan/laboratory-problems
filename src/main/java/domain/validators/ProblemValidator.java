@@ -15,20 +15,24 @@ public class ProblemValidator implements Validator<Problem>{
     @Override
     public void validate(Problem problem) throws ValidatorException {
         try {
-            if(problem.getProblemNumber() < 0) throw new ValidatorException("Problem Number Must Be Positive!");
+            if (problem.getId() < 0) throw new ValidatorException("Problem Id Must Be Positive!");
         } catch (NullPointerException e) {
             throw new ValidatorException("LabProblem Object Is Null!");
         }
 
+        if(problem.getProblemNumber() < 0) {
+            throw new ValidatorException("Problem Number Must Be Positive!");
+        }
+
         try {
             problem.getName().charAt(0);
-        } catch (StringIndexOutOfBoundsException e) {
+        } catch (StringIndexOutOfBoundsException | NullPointerException e) {
             throw new ValidatorException("LabProblem Name Not Set!");
         }
 
         try {
             problem.getDescription().charAt(0);
-        } catch (StringIndexOutOfBoundsException e) {
+        } catch (StringIndexOutOfBoundsException | NullPointerException e) {
             throw new ValidatorException("LabProblem Name Not Set!");
         }
     }

@@ -68,7 +68,7 @@ public class Console implements Runnable{
             } catch (IOException impossible) {
                 System.out.println("There was an input error. Please try again.");
             } catch (WrongInputException e) {
-                System.out.println("Wrong input. Try again.");
+                System.out.println(e.getMessage());
             } catch (NullPointerException e) {
                 System.out.println("Something not initialized correctly.");
             } catch (RepositoryException ex) {
@@ -241,7 +241,7 @@ public class Console implements Runnable{
         } catch (AssertionError ignored) {
             userOptions.add(this.readString("Give filter type [name | description | student | all]"));
             this.filterProblems(userOptions);
-        } catch (IndexOutOfBoundsException ignore) {
+        } catch (IndexOutOfBoundsException ignored) {
             userOptions.add(this.readString("Give value to filter by"));
             this.filterProblems(userOptions);
         }
@@ -351,9 +351,7 @@ public class Console implements Runnable{
         } catch (AssertionError | IndexOutOfBoundsException ignored) {
             userOptions.add(this.readString("Give entities to add [student | problem | assignment]"));
             this.add(userOptions);
-        } catch (ValidatorException exception) {
-            throw new WrongInputException("Wrong input. " + exception.getMessage());
-        } catch (RepositoryException exception) {
+        } catch (ValidatorException | RepositoryException exception) {
             throw new WrongInputException("Wrong input. " + exception.getMessage());
         }
     }
@@ -385,9 +383,7 @@ public class Console implements Runnable{
         }  catch (AssertionError | IndexOutOfBoundsException ignored) {
             userOptions.add(this.readString("Give entities to update [student | problem | assignment]"));
             this.add(userOptions);
-        } catch (ValidatorException exception) {
-            throw new WrongInputException("Wrong input. " + exception.getMessage());
-        } catch (RepositoryException exception) {
+        } catch (ValidatorException | RepositoryException exception) {
             throw new WrongInputException("Wrong input. " + exception.getMessage());
         }
     }

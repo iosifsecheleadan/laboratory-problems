@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog.domain.entities.Problem>
-    <LabProblem>
+<domain.entities.Problem>
+    <Problem>
         <ID>1</ID>
         <problemNumber>1</problemNumber>
         <name>First Lab Problem</name>
         <description>This is the first lab problem</description>
-    </LabProblem>
-    <LabProblem>
+    </Problem>
+    <Problem>
         <ID>2</ID>
         <problemNumber>2</problemNumber>
         <name>Second Lab Problem</name>
         <description>This is the second lab problem</description>
-    </LabProblem>
-    <LabProblem>
+    </Problem>
+    <Problem>
         <ID>3</ID>
         <problemNumber>3</problemNumber>
         <name>Third Lab Problem</name>
         <description>This is the third lab problem</description>
-    </LabProblem>
-    <LabProblem>
+    </Problem>
+    <Problem>
         <ID>4</ID>
         <problemNumber>4</problemNumber>
         <name>Fourth Lab Problem</name>
         <description>This is the fourth lab problem</description>
-    </LabProblem>
-</catalog.domain.entities.Problem>
+    </Problem>
+    <Problem>
+        <ID>4</ID>
+        <problemNumber>4</problemNumber>
+        <name>Fourth Lab Problem</name>
+        <description>This is the fourth lab problem</description>
+    </Problem>
+</domain.entities.Problem>

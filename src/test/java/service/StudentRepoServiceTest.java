@@ -21,7 +21,7 @@ public class StudentRepoServiceTest {
     public void setUp() throws Exception {
         this.repo = new GenericFileRepository<Student>(
                 new StudentValidator(),
-                "./src/test/java/catalog/service/testStudents.txt",
+                "./src/test/java/service/testStudents.txt",
                 "domain.entities.Student");
         this.repo.findAll().forEach(student -> this.repo.delete(student.getId()));
         this.serv = new StudentRepoService(this.repo);

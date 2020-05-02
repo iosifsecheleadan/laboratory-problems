@@ -34,7 +34,6 @@ public class StudentRepoService
 
     public void updateStudent(Student student) throws ValidatorException{
         this.repository.update(student);
-
     }
     public Set<Student> getAllStudents() {
         Iterable<Student> students = repository.findAll();

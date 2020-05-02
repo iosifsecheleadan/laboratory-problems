@@ -1,4 +1,4 @@
-package domain;
+package domain.entities;
 
 import domain.entities.Assignment;
 import org.junit.After;

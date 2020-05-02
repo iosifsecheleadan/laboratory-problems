@@ -17,16 +17,16 @@ import static org.junit.Assert.*;
 public class AssignmentRepoServiceTest {
     private Repository<Long, Assignment> repo;
     private Repository<Long, Student> students;
-    private Repository<Long, Problem> labProblems;
+    private Repository<Long, Problem> problems;
     private AssignmentRepoService serv;
 
     private final Student Szero = new Student(0L,"00zr","Zero the Hero", 0);
     private final Student Sone = new Student(1L, "11st", "The First", 1);
     private final Student Stwo = new Student(2L, "22nd", "The Second", 1);
 
-    private final Problem LPzero = new Problem(0L, 0, "ZeroTh", "You think just because it's small it's easy. But it ain't.");
-    private final Problem LPone = new Problem(1L, 1, "The FirSt", "No not furry. Firstly.");
-    private final Problem LPtwo = new Problem(2L, 2, "The SecoNd", "Time? What time? No time. Just money.");
+    private final Problem Pzero = new Problem(0L, 0, "ZeroTh", "You think just because it's small it's easy. But it ain't.");
+    private final Problem Pone = new Problem(1L, 1, "The FirSt", "No not furry. Firstly.");
+    private final Problem Ptwo = new Problem(2L, 2, "The SecoNd", "Time? What time? No time. Just money.");
 
     private final Assignment SP00 = new Assignment(0L, 0L, 0L);
     private final Assignment SP01 = new Assignment(1L, 0L, 1L);
@@ -39,21 +39,23 @@ public class AssignmentRepoServiceTest {
     public void setUp() {
         this.repo = new GenericFileRepository<Assignment>(
                 new AssignmentValidator(),
-                "./src/test/java/catalog/service/testStudentProblems.txt",
-                "domain.StudentProblem");
+                "./src/test/java/service/testStudentProblems.txt",
+                "domain.entities.Assignment");
         this.repo.findAll().forEach(studentProblem -> this.repo.delete(studentProblem.getId()));
 
         this.students = new GenericFileRepository<Student>(
                 new StudentValidator(),
-                "./src/test/java/catalog/service/testStudents.txt",
+                "./src/test/java/service/testStudents.txt",
                 "domain.entities.Student");
+        this.students.save(Szero); this.students.save(Sone); this.students.save(Stwo);
 
-        this.labProblems = new GenericFileRepository<Problem>(
+        this.problems = new GenericFileRepository<Problem>(
                 new ProblemValidator(),
-                "./src/test/java/catalog/service/testLabProblems.txt",
-                "domain.LabProblem");
+                "./src/test/java/service/testLabProblems.txt",
+                "domain.entities.Problem");
+        this.problems.save(Pzero); this.problems.save(Pone); this.problems.save(Ptwo);
 
-        this.serv = new AssignmentRepoService(this.repo, this.students, this.labProblems);
+        this.serv = new AssignmentRepoService(this.repo, this.students, this.problems);
     }
 
     @After
@@ -61,7 +63,7 @@ public class AssignmentRepoServiceTest {
         this.repo.findAll().forEach(studentProblem -> this.repo.delete(studentProblem.getId()));
         this.repo = null;
         this.students = null;
-        this.labProblems = null;
+        this.problems = null;
         this.serv = null;
     }
 
@@ -122,7 +124,7 @@ public class AssignmentRepoServiceTest {
         this.serv.addAssignment(this.SP02);
         this.serv.addAssignment(this.SP10);
         this.serv.addAssignment(this.SP11);
-        this.serv.removeProblem(this.LPzero);
+        this.serv.removeProblem(this.Pzero);
         assertFalse(this.serv.getAllAssignments().contains(this.SP00));
         assertEquals(3, this.serv.getAllAssignments().size());
     }
@@ -132,8 +134,6 @@ public class AssignmentRepoServiceTest {
         this.serv.removeAssignment(new Assignment(null, null, null));
     }
 
-    // filterByProblem doesn't work properly
-    @Ignore
     @Test
     public void testFilterProblem() throws Exception {
         this.serv.addAssignment(this.SP00);
@@ -142,13 +142,11 @@ public class AssignmentRepoServiceTest {
         this.serv.addAssignment(this.SP10);
         this.serv.addAssignment(this.SP11);
         //System.out.println(this.serv.filterByProblem(this.LPone));
-        assertEquals(2, this.serv.filterByProblem(this.LPzero).size());
-        assertEquals(this.serv.filterByProblem(this.LPone),
-                this.serv.filterByProblem(this.LPone.getProblemNumber()));
+        assertEquals(2, this.serv.filterByProblem(this.Pzero).size());
+        assertEquals(this.serv.filterByProblem(this.Pone),
+                this.serv.filterByProblem(this.Pone.getProblemNumber()));
     }
 
-    // filterByStudent doesn't work properly
-    @Ignore
     @Test
     public void testFilterStudent() throws Exception {
         this.serv.addAssignment(this.SP00);

@@ -1,6 +1,5 @@
 package ui.rmi.client;
 
-
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import service.AssignmentService;
 import service.ProblemService;
